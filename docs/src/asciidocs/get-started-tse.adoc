@@ -99,7 +99,7 @@ image::./images/paid-cluster-tse-license.png[]
 +
 To initiate a license upgrade request from the UI:
 
-* In the *Develop* tab, click the locked menu option.
+* In the *Develop* tab, click a locked menu option.
 +
 The UI prompts you to upgrade your license or activate a 30-day free trial.
 

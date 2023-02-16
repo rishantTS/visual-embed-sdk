@@ -5,9 +5,6 @@
 :page-pageid: license-feature-matrix
 :page-description: Choose the license model as per your embedding requirements.
 
-ThoughtSpot offers a separate license for customers who want to embed the ThoughtSpot application or its features in their app, web page, or portal. To get full access to the embedding and customization functionality, Developer portal, APIs, and SDK, you must obtain a ThoughtSpot Everywhere Edition license.
-
-== Feature availability
 The following table lists the features available with ThoughtSpot Analytics and embedding licenses:
 
 [div tableContainer]
@@ -208,8 +205,6 @@ __Requires `ADMINISTRATION` privilege__
 |=====
 --
 
-
-
 == REST API v2.0 operations
 
 [div tableContainer]
@@ -222,7 +217,7 @@ __Requires `ADMINISTRATION` privilege__
 (Evaluation only)
 a|xref:rest-api-v2-reference.adoc#_authentication[Authentication API endpoints] +
 
-|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–# +
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
 __Session information API only__
 a|xref:rest-api-v2-reference.adoc#_users[User API endpoints]
 
