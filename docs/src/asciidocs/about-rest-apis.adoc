@@ -46,11 +46,11 @@ Postman allows you to link:https://learning.postman.com/docs/sending-requests/ce
 
 * Your REST client must have access to the server certificate in the Keystore or Truststore on your client environment.
 +
-One of the common causes for certificate errors during a REST API operation is the non-availability of trusted SSL certificates in the Keystore or Truststore on your client environment.
+One of the common causes for certificate errors during a REST API operation is the non-availability of trusted SSL certificates in the Keystore or Truststore in your client environment.
 +
 You can choose to skip the SSL certificate verification step in development or test environments. However, in production environments, use SSL verification checks to ensure that your REST client uses trusted server certificates when calling a REST API.
 +
-If you don't have the server certificate on your client environment, you can xref:about-rest-apis.adoc#_export_ssl_certificate_from_a_thoughtspot_cluster[export the SSL certificate from your ThoughtSpot cluster] and xref:about-rest-apis.adoc#_import_server_certificate_into_the_keystoretruststore[import it into your client application framework].
+If you don't have the server certificate in your client environment, you can xref:about-rest-apis.adoc#_export_ssl_certificate_from_a_thoughtspot_cluster[export the SSL certificate from your ThoughtSpot cluster] and xref:about-rest-apis.adoc#_import_server_certificate_into_the_keystoretruststore[import it into your client application framework].
 
 === Export SSL certificate from a ThoughtSpot cluster
 You can export an SSL certificate or certificate chain via Web browsers. For example, on Chrome, you can perform the following steps to export the SSL certificate:
