@@ -37,10 +37,8 @@ For a complete list of API endpoints and information about how to make an API ca
 To communicate and exchange data with a ThoughtSpot application server securely via HTTPS:
 
 * Your ThoughtSpot application instance must have SSL configured. +
-
-If the REST API endpoint uses a certificate that's registered with an internal certificate registry, your REST API request via tools like Postman returns an SSL error. For production environments, ThoughtSpot recommends using HTTPS with valid SSL certificates issued by a trusted Certificate Authority (CA). If your application instance doesn't have a trusted certificate issued by a CA, contact your security administrator.
-
 +
+If the REST API endpoint uses a certificate that's registered with an internal certificate registry, your REST API request via tools like Postman returns an SSL error. For production environments, ThoughtSpot recommends using HTTPS with valid SSL certificates issued by a trusted Certificate Authority (CA). If your application instance doesn't have a trusted certificate issued by a CA, contact your security administrator.
 
 ////
 Postman allows you to link:https://learning.postman.com/docs/sending-requests/certificates/[add the trusted CA certificate, window=_blank] or turn off SSL verification.
