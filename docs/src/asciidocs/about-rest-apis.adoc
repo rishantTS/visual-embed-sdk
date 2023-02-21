@@ -32,22 +32,25 @@ For a complete list of API endpoints and information about how to make an API ca
 * xref:rest-api-reference.adoc[REST API v1 Reference]
 * xref:rest-api-v2-reference.adoc[REST API v2.0 Reference]
 
-== Certificate requirements for REST API requests via HTTPS
+== Certificate requirements for REST API calls
 
 To communicate and exchange data with a ThoughtSpot application server securely via HTTPS:
 
-. SSL must be configured on your ThoughtSpot application instance
+. Your ThoughtSpot application instance must have SSL configured.
 +
 In production environments, ThoughtSpot recommends using HTTPS with valid SSL certificates issued by a trusted Certificate Authority (CA).
 +
-For example, if you are using Postman to make API calls, your API requests return `SSL Error: Self signed certificate` error if your endpoint uses a certificate that's registered with an internal certificate registry. Postman allows you to link:https://learning.postman.com/docs/sending-requests/certificates/[add the trusted CA certificate, window=_blank] or turn off SSL verification.
-
-. Your REST client must have access to the server certificate in the Keystore or Truststore on your  client environment.
+If your endpoint uses a certificate that's registered with an internal certificate registry, your REST API request via tools like Postman returns an SSL error. If your application instance doesn't have a trusted certificate issued by a CA, contact your security administrator.
 +
-One of the common causes for certificate errors during a REST API operation is the non-availability of trusted SSL certificates in the Keystore or Truststore on your client environment. For example, in a JDK-based implementation, the trusted certificates and required keys must be available in the Java Keystore of your client application. Similarly, for Python-based implementations, the SSL certificates must be available in the certificate store used by Python.
+Postman allows you to link:https://learning.postman.com/docs/sending-requests/certificates/[add the trusted CA certificate, window=_blank] or turn off SSL verification.
 
+. Your REST client must have access to the server certificate in the Keystore or Truststore on your client environment.
 +
-In some cases, your application may require a certificate chain that contains a sequence of certificates, including the root and intermediate certificates. In a development or testing environment, you can choose to skip the SSL certificate verification step. However, in production environments, ThoughtSpot recommends using the SSL verification checks to ensure that your REST client uses trusted server certificates when calling REST APIs.
+One of the common causes for certificate errors during a REST API operation is the non-availability of trusted SSL certificates in the Keystore or Truststore on your client environment. For example, in a JDK-based implementation, the trusted certificates and required keys must be available in the Java Keystore of your client application. In a Python-based implementation, the SSL certificates must be available in the certificate store used by Python.
++
+In some cases, your application may require a certificate chain that contains a sequence of certificates, including the root and intermediate certificates.
++
+You can choose to skip the SSL certificate verification step in development or test environments. However, in production environments, use SSL verification checks to ensure that your REST client uses trusted server certificates when calling a REST API.
 
 +
 If you don't have the server certificate on your client environment, try exporting the SSL certificate from your ThoughtSpot application server via a Web browser. For example, to export an SSL certificate or certificate chain via Chrome, follow these steps:
@@ -57,7 +60,9 @@ If you don't have the server certificate on your client environment, try exporti
 .. Click *Export*.
 
 +
-For information about how to import the root and intermediate certificates into Truststore or Keystore on your client environment, refer to the following resources:
+To know how to import the root and intermediate certificates into Truststore or Keystore on your client environment, refer to the following resources:
 
-* For Java applications, see link:https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html[https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html, window=_blank] and link:https://docs.oracle.com/javaee/5/tutorial/doc/bnbxw.html[https://docs.oracle.com/javaee/5/tutorial/doc/bnbxw.html, window=_blank]. +
+* For Java applications, refer to the following pages on the Oracle documentation site:
+** link:https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html[https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html, window=_blank]
+** link:https://docs.oracle.com/javaee/5/tutorial/doc/bnbxw.html[https://docs.oracle.com/javaee/5/tutorial/doc/bnbxw.html, window=_blank] +
 * For Python clients, see link:https://docs.python.org/3/library/ssl.html#certificates[ttps://docs.python.org/3/library/ssl.html#certificates, window=_blank].
