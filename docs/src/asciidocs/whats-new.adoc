@@ -29,6 +29,10 @@ To listen to the right-click events on a chart or table, use the `EmbedEvent.Viz
 
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
+== Version 9.1.0.cl, Coming soon
+
+
+
 == Version 9.0.0.cl
 
 === New Liveboard experience
