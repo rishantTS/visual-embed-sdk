@@ -54,7 +54,6 @@ liveboardEmbed.trigger(HostEvent.CopyLink,  {
 ====
 --
 
-
 ==== Delete
 Available with  `LiveboardEmbed`,  and `AppEmbed` in `v1.19.0` or later. +
 Triggers the Delete action on embedded visualization or search Answer. +
@@ -272,6 +271,7 @@ liveboardEmbed.trigger(HostEvent.ExportTML)
 ----
 ====
 --
+
 
 ==== getExportRequestForCurrentPinboard
 Available with `LiveboardEmbed` in v1.13.0 or later. +
@@ -1234,8 +1234,28 @@ function showErrorMsg() {
 
 ----
 ====
-
 --
+
+==== GetDataClick
+Available with `SearchBarEmbed` in v1.19.0 or later. +
+
+Is emitted when the *Get Data* button in the embedded search bar view is clicked.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchbarEmbed.trigger(EmbedEvent.GetDataClick)
+.then(data => {
+console.log('Answer Data:', data);
+})
+----
+====
+--
+
 
 ==== Init
 
