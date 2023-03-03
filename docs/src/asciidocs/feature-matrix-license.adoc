@@ -27,6 +27,7 @@ __Requires developer or admin  privileges__ |[tag greenBackground]#✓# 2*| [tag
 |[tag greyBackground]#–# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
 
 5+|*Authentication and security* + |
+<<<<<<< HEAD
 
 |Basic authentication + |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
 
@@ -40,6 +41,21 @@ __Requires developer or admin  privileges__ |[tag greenBackground]#✓# 2*| [tag
 
 a|Embedding Liveboards and charts using data APIs +
 |[tag greenBackground]#✓#  +
+=======
+
+|Basic authentication + |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+
+|SAML SSO |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
+|OIDC authentication |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
+|Trusted authentication |[tag greyBackground]#–#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
+
+|CSP, CORS, and SAML redirect allowlists| [tag greyBackground]#–#  2*| [tag greenBackground]#✓# | [tag greyBackground]#–# | [tag greyBackground]#–#
+
+5+|*REST APIs* + |
+
+a|Embedding Liveboards and charts using data APIs +
+|[tag greyBackground]#–#  +
+>>>>>>> ba7922b0... Tse license info and other fixes (#832)
 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓#  +
 |[tag greyBackground]#–#
 
@@ -54,7 +70,11 @@ a|REST API v2.0 endpoints |[tag greenBackground]#✓#
 5+|*REST API authentication options* + |
 
 |Basic authentication + |[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+<<<<<<< HEAD
 |Bearer token authentication (REST APi v2.0 only)|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+=======
+|Bearer token authentication (REST API v2.0 only)|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#
+>>>>>>> ba7922b0... Tse license info and other fixes (#832)
 |Trusted authentication |[tag greyBackground]#–#|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|[tag greyBackground]#–#
 
 5+|*Custom actions* + |
@@ -94,6 +114,7 @@ a|Runtime filters
 ////
 
 == REST API v1 operations
+<<<<<<< HEAD
 
 [div tableContainer]
 --
@@ -162,6 +183,79 @@ a|xref:admin-api.adoc[System administration API endpoints] +
 a|xref:admin-api.adoc#_supported_operations[Custom action API endpoints] +
 
 ////
+=======
+
+[div tableContainer]
+--
+[width="100%" cols="8,4,4,4,4,4"]
+[options='header']
+|=====
+|REST API v1 endpoints|ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license|ThoughtSpot Everywhere license|Free Trial account +
+
+(Evaluation only) |API Playground on public instance +
+(Evaluation only)
+
+a| xref:user-api.adoc[User API endpoints] +
+////
+__Require `ADMINISTRATION` privilege__
+////
+2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+
+a| xref:group-api.adoc[Group API endpoints] +
+////
+__Require `ADMINISTRATION` privilege__
+////
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–# +
+
+a|xref:session-api.adoc[Session API endpoints] +
+
+////
+* __The API calls to `/tspublic/v1/session/auth/token` and  `/tspublic/v1/session/login/token` require ThoughtSpot Everywhere license__ +
+* __The home Liveboard CRUD operations require view or edit access to Liveboard objects__
+////
+|[tag greenBackground]#✓# +
+
+__The xref:api-auth-session.adoc#_obtain_a_token_for_trusted_authentication[`session/auth/token`] and xref:api-auth-session.adoc#_authenticate_and_log_in_with_a_token_trusted_authentication[`session/login/token`] endpoints are not available__ 2*|[tag greenBackground]#✓#
+ |[tag greenBackground]#✓#|[tag greenBackground]#✓# +
+
+__Session information and home Liveboard APIs only__
+a|xref:connections-api.adoc[Connection API endpoints] +
+
+////
+__Require `DATAMANAGEMENT` privilege__
+////
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+a|xref:metadata-api.adoc[Metadata API endpoints] +
+////
+* __Require at least view access to metadata objects__ +
+
+* __ `POST` requests require edit access to metadata objects__
+////
+
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greenBackground]#✓#
+
+__Query APIs only__
+
+a|xref:tml-api.adoc[TML API endpoints] +
+
+////
+__Require `DATAMANAGEMENT` privilege__
+////
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greenBackground]#✓# |[tag greyBackground]#–#
+
+a|xref:admin-api.adoc[System administration API endpoints] +
+
+////
+* __Require `ADMINISTRATION` privilege__ +
+* __Custom action APIs require `ADMINISTRATOR` or `DEVELOPER` privilege__ +
+* __Custom action association requires at least edit access to the visualization or saved answer__ +
+////
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+
+a|xref:admin-api.adoc#_supported_operations[Custom action API endpoints] +
+
+////
+>>>>>>> ba7922b0... Tse license info and other fixes (#832)
 * __Require `ADMINISTRATION` privilege__ +
 * __Custom action APIs require `ADMINISTRATOR` or `DEVELOPER` privilege__ +
 * __Custom action association requires at least edit access to the visualization or saved answer__ +
@@ -201,6 +295,7 @@ a|xref:logs-api.adoc[Audit logs API endpoint] +
 ////
 __Requires `ADMINISTRATION` privilege__
 ////
+<<<<<<< HEAD
 |[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#||[tag greyBackground]#–#|
 |=====
 --
@@ -247,6 +342,58 @@ a|xref:rest-api-v2-reference.adoc#_data[Log API endpoints]
 |=====
 --
 
+=======
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greyBackground]#–#|
+|=====
+--
+
+== REST API v2.0 operations
+
+[div tableContainer]
+--
+[width="100%" cols="8,8,4,4,4,4"]
+[options='header']
+|=====
+|REST API v2.0 endpoints |ThoughtSpot Analytics license|ThoughtSpot Analytics with Embed Add-on license| ThoughtSpot Everywhere License|Free Trial account +
+(Evaluation only) |API Playground on public instance +
+(Evaluation only)
+a|xref:rest-api-v2-reference.adoc#_authentication[Authentication API endpoints] +
+
+a|[tag greenBackground]#✓# +
+
+__The token generation option with `username` and `secret_key` and the JIT user provisioning parameters in `auth/token/object` and `auth/token/full` endpoints require an embedding license__.
+
+2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#|[tag greenBackground]#✓# +
+__Session information API only__
+a|xref:rest-api-v2-reference.adoc#_users[User API endpoints]
+
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_system[System API endpoints]
+
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_orgs[Org API endpoints]
+
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓# |[tag greyBackground]#–# |[tag greyBackground]#–#
+a|xref:rest-api-v2-reference.adoc#_metadata[Metadata API endpoints]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓# +
+__Query APIs only__
+
+a|xref:rest-api-v2-reference.adoc#_reports[Report API endpoints]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓# |[tag greenBackground]#✓# +
+__Query APIs only__
+
+a|xref:rest-api-v2-reference.adoc#_security[Security API endpoints]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+
+a|xref:rest-api-v2-reference.adoc#_data[Data API endpoints]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greenBackground]#✓#  |[tag greenBackground]#✓#
+
+a|xref:rest-api-v2-reference.adoc#_data[Log API endpoints]
+|[tag greenBackground]#✓# 2*|[tag greenBackground]#✓#|[tag greyBackground]#–# |[tag greyBackground]#–#
+|=====
+--
+
+>>>>>>> ba7922b0... Tse license info and other fixes (#832)
 
 
 == REST API v2 [beta betaBackground]^Beta^ operations
