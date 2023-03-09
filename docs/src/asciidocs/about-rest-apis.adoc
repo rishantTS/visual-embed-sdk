@@ -72,8 +72,4 @@ You must add the SSL certificates obtained from your ThoughtSpot instance to Tru
 
 * For a Java-based client, refer to the instructions at link:https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html[https://docs.oracle.com/javase/tutorial/security/toolsign/rstep2.html, window=_blank].
 
-<<<<<<< HEAD
 * For Python clients, see link:https://docs.python.org/3/library/ssl.html[https://docs.python.org/3/library/ssl.html, window=_blank].
-=======
-* For Python clients, see link:https://docs.python.org/3/library/ssl.html[https://docs.python.org/3/library/ssl.html, window=_blank].
->>>>>>> ba7922b0... Tse license info and other fixes (#832)
