@@ -17,7 +17,7 @@ import {
 } from './embed/liveboard';
 import { SearchEmbed, SearchViewConfig } from './embed/search';
 import { SearchBarEmbed, SearchBarViewConfig } from './embed/search-bar';
-import { AuthFailureType, AuthStatus, AuthEvent } from './auth';
+import { AuthFailureType, AuthStatus, AuthEvent, getSessionInfo } from './auth';
 import {
     AuthType,
     RuntimeFilter,
@@ -34,6 +34,8 @@ export {
     init,
     logout,
     prefetch,
+    getEmbedConfig as getInitConfig,
+    getSessionInfo,
     SearchEmbed,
     SearchBarEmbed,
     PinboardEmbed,
