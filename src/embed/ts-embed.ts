@@ -51,6 +51,7 @@ const { version } = pkgInfo;
  * Global prefix for all Thoughtspot postHash Params.
  */
 export const THOUGHTSPOT_PARAM_PREFIX = 'ts-';
+const TS_EMBED_ID = '_thoughtspot-embed';
 
 /**
  * The event id map from v2 event names to v1 event id
@@ -298,6 +299,8 @@ export class TsEmbed {
             locale,
             customizations,
             contextMenuTrigger,
+            linkOverride,
+            insertInToSlide,
         } = this.viewConfig;
 
         if (Array.isArray(visibleActions) && Array.isArray(hiddenActions)) {
@@ -357,6 +360,12 @@ export class TsEmbed {
         }
         if (additionalFlags && additionalFlags.constructor.name === 'Object') {
             Object.assign(queryParams, additionalFlags);
+        }
+        if (linkOverride) {
+            queryParams[Param.LinkOverride] = linkOverride;
+        }
+        if (insertInToSlide) {
+            queryParams[Param.ShowInsertToSlide] = insertInToSlide;
         }
         return queryParams;
     }
@@ -442,6 +451,7 @@ export class TsEmbed {
                         this.iFrame || document.createElement('iframe');
 
                     this.iFrame.src = url;
+                    this.iFrame.id = TS_EMBED_ID;
 
                     // according to screenfull.js documentation
                     // allowFullscreen, webkitallowfullscreen and mozallowfullscreen must be true
@@ -519,8 +529,12 @@ export class TsEmbed {
             if (typeof child === 'string') {
                 const div = document.createElement('div');
                 div.innerHTML = child;
+                div.id = TS_EMBED_ID;
                 // eslint-disable-next-line no-param-reassign
                 child = div;
+            }
+            if (this.el.nextElementSibling?.id === TS_EMBED_ID) {
+                this.el.nextElementSibling.remove();
             }
             this.el.parentElement.insertBefore(child, this.el.nextSibling);
         } else if (typeof child === 'string') {
