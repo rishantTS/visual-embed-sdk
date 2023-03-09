@@ -212,6 +212,11 @@ Tokens stay valid for a length of time based on the following rules:
 
 To set a consistent five-minute expiration time, you can generate a second token to start the expiration clock for the previous login token that is sent to the user's browser.
 
+[NOTE]
+====
+On multi-tenant clusters with Orgs, users must use the Org-specific tokens when switching between Orgs.
+====
+
 == Troubleshoot trusted authentication
 
 [NOTE]
