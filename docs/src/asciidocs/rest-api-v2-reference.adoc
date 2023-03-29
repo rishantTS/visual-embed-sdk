@@ -51,22 +51,24 @@ Gets an authentication token from ThoughtSpot, which allows access to a specific
 ** To obtain a bearer token, specify the username, password, and object ID in the API request.
 ** To obtain a token on behalf of a user, specify the username, secret key, and object ID.
 +
-__Requires administrator privileges__.
+__Requires access to the `secret_key`. For more information, see xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication]__.
 
 
 * `POST /api/rest/2.0/auth/token/full`
 +
-Gets an authentication token from ThoughtSpot, which provides access to full application.
+Gets an authentication token from ThoughtSpot, which provides access to the full application.
 +
 ** To obtain a bearer token, specify the username and password in the API request.
 ** To obtain a token on behalf of a user, specify the username and secret key.
 +
-__Requires administrator privileges__.
+__Requires access to the `secret_key`. For more information, see xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication]__.
 
+////
 [NOTE]
 ====
 You can copy the `secret key` from *Develop* > *Customizations* > *Security Settings* page if xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication] is enabled on your instance.
 ====
+////
 
 +++ <h5>Just-in-time user provisioning</h5> +++
 
@@ -197,7 +199,11 @@ __Requires administrator privileges__.
 
 `POST /api/rest/2.0/users/change_password`
 
-Allows ThoughtSpot users to change the password of their account. Administrators can also change the password on behalf of a user.
+Allows ThoughtSpot users to change the password of their account.
+
+////
+Administrators can also change the password on behalf of a user.
+////
 
 +++<a href="{{previewPrefix}}/api/rest/playgroundV2_0" id="preview-in-playground" target="_blank">View in Playground</a>+++
 --
@@ -208,7 +214,7 @@ Allows ThoughtSpot users to change the password of their account. Administrators
 
 `POST /api/rest/2.0/users/reset_password`
 
-Resets a user's password.
+Resets the password of a user account.
 
 __Requires administrator privileges__.
 
