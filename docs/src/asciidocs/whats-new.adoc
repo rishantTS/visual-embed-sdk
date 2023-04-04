@@ -29,9 +29,9 @@ To listen to the right-click events on a chart or table, use the `EmbedEvent.Viz
 
 We recommend using a development environment to test your customizations before rolling them out on production servers. For more information, contact ThoughtSpot Support.
 
-=== Per Org tokens for Trusted authentication [tag redBackground]#BREAKING CHANGE#
+=== Per Org tokens for Trusted authentication
 
-Org users authenticating to ThoughtSpot via Trusted authentication method will require Org-specific tokens to switch between Orgs. After your ThoughtSpot instance is upgraded to the new release version, your Org users will not be able to switch to another Org if they don't have a token to access that Org. When generating an authentication token on behalf of a user via `POST /tspublic/v1/session/auth/token` REST API call, the cluster administrator or Org administrator must make sure to request a token for each Org to which the user belongs.
+Org users authenticating to ThoughtSpot via Trusted authentication method will require Org-specific tokens to switch between Orgs. When generating an authentication token on behalf of a user via `POST /tspublic/v1/session/auth/token` REST API call, the cluster administrator or Org administrator must make sure to request a token for each Org to which the user belongs.
 
 === GraphQL playground [beta betaBackground]^Beta^
 The *Develop* tab in the ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations. To enable this feature on your instance, contact ThoughtSpot Support.
