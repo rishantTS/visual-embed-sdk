@@ -486,13 +486,13 @@ The following action enumerations are available for the menu actions on the *Dat
 [options='header']
 |===
 |Action string in SDK| Required SDK library|Action label in the UI
-|`Action.Share`|`AppEmbed` | *Share* action in the *Data* > *Home* page+
+|`Action.Share`|`AppEmbed` | *Share* action on the *Data* > *Home* page+
 Allows sharing a saved Answer with another user or group.
-|`Action.Remove`|`AppEmbed` | *Delete* action in the *Data* > *Home*  and *Data* > *Connections* page. +
+|`Action.Remove`|`AppEmbed` | *Delete* action on the *Data* > *Home*  and *Data* > *Connections* pages +
 Allows deleting an Answer.
-|`Action.ExportTML`| `AppEmbed` | *Export TML* action in the *Data* > *Home* page +
+|`Action.ExportTML`| `AppEmbed` | *Export TML* action on the *Data* > *Home* page +
 Allows exporting a saved Answer as a TML object.
-|`Action.EditTML`| `AppEmbed` | *Edit TML*  action in the *Data* > *Home* page +
+|`Action.EditTML`| `AppEmbed` | *Edit TML*  action on the *Data* > *Home* page +
 Opens the TML Editor that allows you to modify the properties of an Answer object.
 |===
 
