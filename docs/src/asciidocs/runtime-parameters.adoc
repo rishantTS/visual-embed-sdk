@@ -1,81 +1,76 @@
-= Runtime parameter overrides
+= Runtime Parameter overrides
 :toc: true
 :toclevels: 2
 
-:page-title: Runtime parameters
-:page-pageid: runtime-parameters
-:page-description: Use parameters to run multiple scenarios with adjustable values, without changing your answer.
+:page-title: Runtime Parameters
+:page-pageid: runtime-params
+:page-description: Use Parameters to run multiple scenarios with adjustable values, without changing your answer.
 
-A parameter in ThoughtSpot refers to a placeholder number, date, or string that can replace a constant value in the data source objects. Parameters to a Worksheet, saved, or Liveboard to optimize your queries and run different scenarios with adjustable values, without creating or modifying the constants in formulas for each new value.
+ThoughtSpot lets you create Parameters in a Worksheet and integrate them into formulas, filters, data queries, and Liveboards. Parameters are useful for 'what-if' analysis, financial planning, cohort analysis, and so on. Parameters allow users to visualize data by running different scenarios with adjustable values. With Parameters, a single report can be created that a business user adjusts to fit the scenario they want to analyze.
 
-You create parameters in a Worksheet and then integrate them into formulas, filters, search, and Liveboards. The analyst and end business user must be able to easily set the parameters, and the setting of a parameter must cause the dependent visualization(s) to update.
+== How to apply Parameters
+You can use Parameters within formulas when querying your data via search, Liveboards, or Answers.  For more information about creating and applying Parameters, see the following articles in ThoughtSpot product documentation.
 
-Parameters are useful for 'what-if' analysis, financial planning, cohort analysis, and so on. When you create parameters for your Worksheets, you guide users in their exploration of the data as they search on your Worksheets. When you create parameters for your Answers, you empower yourself and other viewers of your Answers to run scenarios on the data in the Answer, using adjustable values.
+* link:https://docs.thoughtspot.com/cloud/latest/parameters-use[Using Parameters, window=_blank]
+* link:https://docs.thoughtspot.com/cloud/latest/parameters-create[Creating Parameters, window=_blank]
 
-== Using parameters
-<Add reference to main docs>
+== Parameter overrides
 
-== Runtime parameter overrides
+You can apply overrides to Parameter values at runtime and visualize data with the adjusted values. Like runtime filters, you can append the Parameters to the end of the URL to modify the resulting output.
 
-You can adjust parameter values at runtime from Liveboard or Answer URLs, or using REST API v1 requests.
+To apply overrides to a Liveboard or Answer object, Parameters must be defined in the Worksheet from which the data is retrieved for live analytics.
 
-=== URL parameters
+For example, if you want to override the value of the inflation Parameter on a Liveboard or Answer, add the Parameters to the object URL as shown in these examples:
 
-=== Parameter overrides in REST API
-
-<TBD>
-
-=== Runtime filters in REST API calls
-
-To add a runtime filter to your API call or the embedded object:
-
-. Construct the URL for embedding the visualization or making a REST API call.
-. Paste the URL into a text editor.
-. Append the runtime filter to the URL, using the runtime filter operators.
-
-The URL format for applying runtime filters to a Liveboard in a REST API call is:
-
+.Liveboard
 ----
-http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&param1=Discount&paramVal1=0.25
+https://{ThoughtSpot-host}/?param1=Discount&paramVal1=0.25#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a
 ----
 
-The URL format for applying runtime filters to a Liveboard visualization in a REST API call is:
-
 ----
-http://{ThoughtSpot-Host}/callosum/v1/tspublic/v1/pinboarddata?id=<Liveboard_id>&vizid=%5B<visualization_id>%5D&&param1={parameter}&paramVal1={Parameter_Value}
+https://{ThoughtSpot-host}/#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a?param1=Discount&paramVal1=0.25
 ----
 
-==== Add additional filters
-
-////
-You can add additional filters by incrementing the number at the end of each parameter in the runtime filter for each filter you add, for example, col2, op2, val2, and so on. To add additional filters on a particular column, you can specify multiple values by separating them with an ampersand (&) as shown in the example here:
-
+.Saved Answer
 ----
-val1=foo&val1=bar
+https://{ThoughtSpot-host}/?param1=Discount&paramVal1=0.25#/saved-answer/3e84d95c-986e-4154-8362-3807906dad50
 ----
 
-You can also use the `IN` operator for multiple values, as shown in this example:
+.Search data
+----
+https://{ThoughtSpot-host}/?param1=Discount&paramVal1=0.25#/answer/
+----
+
+=== Apply Parameter overrides via REST API
+
+To apply overrides to a Liveboard via REST API, add Parameters to the Liveboard data API request URL as shown in the example here:
 
 ----
-col1=<column_name>&op1=IN&val1=<value>&val1=<value>
+https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-436b-a29a-22d8998c4fae&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&param1=Inflation&paramVal1=0.03%2324
 ----
 
-The following example passes multiple variables to a single column as well as multiple columns. It shows that the data values are returned as epochs.
+To apply overrides to an Answer, add Parameters to the search data API request URL as shown here:
+----
+https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/searchdata?batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&param1=Inflation&paramVal1=0.03%2324
+----
 
-----
-col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2=<epoch_start>&val2=<epoch_end>
-----
-[NOTE]
+[IMPORTANT]
 ====
-If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
+REST API v2.0 endpoints do not support applying runtime Parameter overrides in API requests.
 ====
 
-== Limitations of runtime filters
+=== Add additional Parameters
 
-* Runtime filter on `DATE` or `DATE_TIME` must be specified in EPOCH time (Unix or POSIX time).
-* Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
-* If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
-* Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
-* You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
+You can add additional Parameters in the URL by incrementing the number for each Parameter attribute, for example, param1, param2, paramVal1, paramVal2, and so on. To add additional overrides, specify the values by separating them with an ampersand (&) as shown in the examples here:
 
-////
+----
+https://{ThoughtSpot-host}/?param1=double%20list%20param&paramVal1=0&param2=double%20param&paramVal2=0#/pinboard/d084c256-e284-4fc4-b80c-111cb606449a
+----
+
+----
+https://{ThoughtSpot-host}/callosum/v1/tspublic/v1/pinboarddata?id=e36ee65e-64be-436b-a29a-22d8998c4fae&batchsize=-1&pagenumber=-1&offset=-1&formattype=COMPACT&param1=double%20list%20param&paramVal1=0&param2=double%20param&paramVal2=0
+----
+
+=== Apply Parameter overrides using Visual Embed SDK
+
+In the current release, the Visual Embed SDK does not support applying runtime Parameter overrides.
