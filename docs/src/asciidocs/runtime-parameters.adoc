@@ -8,7 +8,7 @@
 
 ThoughtSpot lets you create Parameters in a Worksheet and integrate them into formulas, filters, data queries, and Liveboards. Parameters are useful for 'what-if' analysis, financial planning, cohort analysis, and so on. Parameters allow users to visualize data by running different scenarios with adjustable values. With Parameters, a single report can be created that a business user adjusts to fit the scenario they want to analyze.
 
-== How to apply Parameters
+== How to define Parameters
 You can use Parameters within formulas when querying your data via search, Liveboards, or Answers.  For more information about creating and applying Parameters, see the following articles in ThoughtSpot product documentation.
 
 * link:https://docs.thoughtspot.com/cloud/latest/parameters-use[Using Parameters, window=_blank]
