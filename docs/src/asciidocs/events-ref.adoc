@@ -14,6 +14,23 @@ The following host events are triggered by the host application, which the embed
 The host events are part of the *HostEvent* object; for example, `HostEvent.SetVisibleVizs`.
 Host events use the `.trigger()` method to send the event message to embedded ThoughtSpot components. The events are sent in the  `.trigger(hostEvent, data)` format.
 
+==== AddColumns
+Available with `SearchEmbed` and `AppEmbed` in `v1.21.0` or later.
+
+Adds new columns to the current Search.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.AddColumns, { columnIds: ['123', '456'] })
+----
+====
+--
+
 ==== CreateMonitor
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
@@ -272,7 +289,6 @@ liveboardEmbed.trigger(HostEvent.ExportTML)
 ====
 --
 
-
 ==== getExportRequestForCurrentPinboard
 Available with `LiveboardEmbed` in v1.13.0 or later. +
 Fires when a user triggers the Liveboard export workflow with the `getExportRequestForCurrentPinboard` method in the browser fetch request to download a Liveboard in its current state, including unsaved changes if any.
@@ -416,6 +432,28 @@ noReload: true
 ----
 --
 
+==== OpenFilter
+
+Available with `SearchEmbed` in `v1.21.0` or later.
+
+Opens the filter panel for a particular column on the Answer page.
+
+Requires column ID and column name.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.OpenFilter, { columnId: '123', name: 'column name', type: 'INT64', dataType: 'ATTRIBUTE' })
+----
+====
+--
+
+
+
 ==== Pin
 
 Available with `LiveboardEmbed` and `AppEmbed` in `v1.15.0` or later. +
@@ -473,6 +511,42 @@ Triggers the *Remove* action for a Liveboard in the embedded ThoughtSpot app.  +
 [source,JavaScript]
 ----
 appEmbed.trigger(HostEvent.Remove)
+----
+====
+--
+
+==== RemoveColumn
+
+Available with `SearchEmbed` and `AppEmbed` in `v1.21.0` or later.
+
+Removes a column from the current Search.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.RemoveColumn, { columnId: '123' })
+----
+====
+--
+
+==== ResetSearch
+
+Available with `SearchEmbed`, `LiveboardEmbed` and `AppEmbed` in `v1.21.0` or later.
+
+Triggers the Reset search action on the Answer page.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.trigger(HostEvent.ResetSearch)
 ----
 ====
 --
@@ -914,6 +988,24 @@ seachEmbed.on(EmbedEvent.CopyToClipboard, payload => {
 ====
 --
 
+==== CrossFilterChanged
+
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.21.0` or later. +
+Is emitted when a user interacts with a cross filter on Liveboard visualization. This event is not available in classic Liveboard experience mode.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+LiveboardEmbed.on(EmbedEvent.CrossFilterChanged)
+----
+====
+--
+
+
 ==== CustomAction
 
 Available with `SearchEmbed`, `LiveboardEmbed`, and `AppEmbed` in `v1.1.0` or later. +
@@ -1080,7 +1172,25 @@ searchEmbed.on(EmbedEvent.DownloadAsPDF, payload => {
     console.log('download PDF', payload)})
 ----
 ====
+--
 
+==== DownloadAsPng
+
+Available with `SearchEmbed`, `LiveboardEmbed`  and  `AppEmbed` in `v1.21.0` or later. +
+
+Is emitted when a user clicks the *Download* > *PNG* action on a Liveboard visualization or Answer.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+searchEmbed.on(EmbedEvent.DownloadAsPng, payload => {
+    console.log('download Png', payload)}
+----
+====
 --
 
 ==== DownloadAsXlsx
@@ -1574,6 +1684,25 @@ searchEmbed.on(EmbedEvent.VizPointDoubleClick, payload => {
    onVizPointDoubleClick(payload);
 })
 ----
+--
+
+==== VizPointRightClick
+
+Available with `SearchEmbed`, `LiveboardEmbed`,  and `AppEmbed` in `V1.21.0` or later. +
+Is emitted when a user clicks an action from the contextual (right-click) menu on a Liveboard visualization or Answer.
+
+[div divider]
+--
+.Example
+[%collapsible]
+====
+[source,JavaScript]
+----
+LiveboardEmbed.on(EmbedEvent.VizPointRightClick, payload => {
+    console.log('VizPointClick', payload)
+})
+----
+====
 --
 
 == Unsubscribe from an event

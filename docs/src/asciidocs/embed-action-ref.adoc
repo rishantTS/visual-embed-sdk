@@ -392,7 +392,7 @@ Provides aggregation options to analyze the data on a chart or table.
 |`Action.AxisMenuConditionalFormat`| `AppEmbed` +
 `SearchEmbed` +
 `LiveboardEmbed` + | *Conditional formatting* menu option +
-Allows adding rules for conditional formatting of data point on a chart or table.
+Allows adding rules for conditional formatting of data points on a chart or table.
 |
 Action.AxisMenuEdit|  `AppEmbed` +
 `SearchEmbed` +

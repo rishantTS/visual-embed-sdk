@@ -449,7 +449,7 @@ liveboardEmbed.render({
 
 See xref:events-ref.adoc#_updateruntimefilters[UpdateRuntimeFilters] and xref:embed-events.adoc#_filters_in_embedded_ui[Filters in embedded UI].
 
-== Apply runtime filters in REST API v1 requests
+== Apply runtime filters using REST API v1 endpoints
 
 To apply runtime filters on a Liveboard object in a REST API request, add the runtime filters to the API request URL as shown here:
 
@@ -509,7 +509,55 @@ If the Liveboard or Answer you're filtering already has one or more filters appl
 
 == Apply Runtime filters in REST API v2 requests
 
-Runtime filters are not supported in REST API v2.0 requests.
+The following v2.0 endpoints support runtime filters in REST API requests:
+
+* `POST /api/rest/2.0/report/liveboard`
++
+Allows downloading Liveboard data in PDF, XLSX, CSV, and PNG format
+
+* `POST /api/rest/2.0/report/answer`
++
+Allows downloading Answer data in PDF, XLSX, CSV, and PNG format
+
+The following example shows the request body with runtime filter parameters:
+
+.Answer report
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/report/answer' \
+  -H 'Authorization: Bearer {access-token} '\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata_identifier": "fa68ae91-7588-4136-bacd-d71fb12dda69",
+  "file_format": "XLSX",
+  "runtime_filter": {
+    "col1": "item type",
+    "op1": "EQ",
+    "values": "Jackets"
+  }
+}'
+----
+
+.Liveboard report
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/report/liveboard' \
+  -H 'Authorization: Bearer {access-token} '\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata_identifier": "fa68ae91-7588-4136-bacd-d71fb12dda69",
+  "file_format": "PDF",
+  "runtime_filter": {
+    "col1": "item type",
+    "op1": "EQ",
+    "values": "Jackets"
+  }
+}'
+----
 
 == Limitations of runtime filters
 
