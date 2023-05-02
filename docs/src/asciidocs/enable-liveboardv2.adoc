@@ -145,7 +145,7 @@ The Note tiles feature is turned off by default and can be enabled by your appli
 If this feature is enabled on your instance, note the following limitations:
 
 * Only users with edit access to a Liveboard can add a Note tile.
-* In 9.2.0.cl, the
+* In 9.2.0.cl, only users with administration, developer, or `Can upload data` privilege can upload an image to the note tile.
 * If you are adding external links and images from a URL, make sure the relevant CSP settings are configured. For more information, see xref:security-settings.adoc[Security settings].
 
 For more information, see link:https://docs.thoughtspot.com/cloud/latest/liveboard-note-tiles[Liveboard Note tiles, window=_blank].
@@ -155,10 +155,12 @@ For more information, see link:https://docs.thoughtspot.com/cloud/latest/liveboa
 Note the following issues and limitations before you enable the new Liveboard experience on your embedded instance:
 
 * The `Rename` action in the **More** menu image:./images/icon-more-10px.png[the more options menu] of an embedded Liveboard cannot be disabled or hidden using Visual Embed SDK.
+* If the worksheet used for generating visualizations contains Parameters, Liveboard users can apply Parameters to Liveboard. On embedded instances,  the `Add Parameter` action on an embedded Liveboard cannot be disabled or hidden using the `Action.AddParameter` enumeration.
 * The `locale` setting translates only some parts of the embedded Liveboard such as the menu action labels.
 * The *Update from TML* and *Manage schedule* menu actions on embedded Liveboards show an error.
 
 == Additional resources
+
 * For information about how to embed a Liveboard, see xref:embed-pinboard.adoc[Embed a Liveboard].
 * For code examples, see xref:code-samples.adoc[Code samples].
 * For more information about the SDK APIs and attributes, see xref:sdk-reference.adoc[Visual Embed SDK Reference].
