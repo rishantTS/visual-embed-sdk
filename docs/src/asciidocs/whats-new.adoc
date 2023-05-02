@@ -8,13 +8,13 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
-== Version 9.2.0.cl
+== Version 9.2.0.cl, May 2023
 
-=== Per Org tokens for Trusted authentication
+=== Per-Org tokens and secret key for Trusted authentication
 
-ThoughtSpot now supports generating secret keys per Org. Tenant administrators can generate a secret key for trusted authentication in their Org context and allow Org users to obtain authentication tokens using this secret key.
+ThoughtSpot now supports generating secret keys per Org. Org administrators can generate a secret key for trusted authentication in their Org context and allow their Org users to obtain authentication tokens using this secret key.
 
-Starting from 9.2.0.cl, Org users require Org-specific authentication tokens issued for their user accounts to authenticate and log in to ThoughtSpot. When generating an authentication token via REST API calls, make sure to request a separate token for each Org context.
+Starting from 9.2.0.cl, Org users require Org-specific authentication tokens issued for their user accounts when switching between Orgs. When generating an authentication token via REST API, make sure to request separate tokens for each Org context.
 
 For more information, see xref:trusted-authentication.adoc#trusted-auth-enable[Trusted authentication].
 
@@ -26,6 +26,8 @@ The 9.2.0.cl release introduces the following new variables for custom styling o
 * `--ts-var-search-auto-complete-subtext-font-color`
 * `--ts-var-answer-edit-panel-background-color`
 
+For more information, see xref:css-customization.adoc[Customize CSS].
+
 === GraphQL playground [beta betaBackground]^Beta^
 The *Develop* tab in the ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations. To enable this feature on your instance, contact ThoughtSpot Support.
 
@@ -33,7 +35,7 @@ The *Develop* tab in the ThoughtSpot UI introduces a GraphQL playground to explo
 
 Embedded application users can now create Worksheet and Answer Parameters to optimize data queries. You can also adjust values and apply overrides at runtime on a Liveboard or Answer either via REST API or by appending Parameters to the query URL in the UI.
 
-For more information, see xref:runtime-parameters.adoc[Runtime Parameter overrides]
+For more information, see xref:runtime-parameters.adoc[Runtime Parameter overrides].
 
 [NOTE]
 ====
@@ -42,7 +44,7 @@ In the 9.2.0.cl release, ThoughtSpot does not support applying runtime Parameter
 
 === Cross filters and contextual menu changes [eaTag eaBackground]#Early Access#
 
-Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. Cross filters is an Early Access feature in 9.2.0.cl and is turned off by default. To enable this feature on your instance, contact ThoughtSpot Support.
+Starting with 9.2.0.cl, ThoughtSpot supports brushing and linking of visualizations on a Liveboard using cross filters. Cross filters allow you to present a coordinated view of a Liveboard by applying filters across all visualizations based on the current selection. The Cross filters feature is turned off by default in 9.2.0.cl. To enable this feature on your instance, contact ThoughtSpot Support.
 
 ==== Contextual menu behaviour
 
@@ -69,7 +71,7 @@ In the new Liveboard experience mode, you can now add Note tiles with custom tex
 
 === Visual Embed SDK
 
-For information about the new features and enhancements introduced in Visual Embed SDK version 1.20.0 and 1.21.0, see xref:api-changelog.adoc[Visual Embed changelog].
+For information about the new features and enhancements introduced in Visual Embed SDK versions 1.20.0 and 1.21.0, see xref:api-changelog.adoc[Visual Embed changelog].
 
 === REST API
 

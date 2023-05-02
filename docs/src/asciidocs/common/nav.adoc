@@ -23,6 +23,7 @@
 * link:{{navprefix}}=spotdev-portal[ThoughtSpot Developer portal]
 ** link:{{navprefix}}=dev-playground[Visual Embed Playground]
 ** link:{{navprefix}}=rest-playground[REST API Playground]
+** link:{{navprefix}}=graphql-playground[GraphQL Playground ^Beta^]
 
 * link:{{navprefix}}=deploy-overview[Deployment and administration]
 ** link:{{navprefix}}=development-and-deployment[Development and deployment]

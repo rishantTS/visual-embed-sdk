@@ -776,7 +776,7 @@ __Requires administrator privileges__.
 
 == Connections
 
-The `Connections` API endpoints allow you to perform CRUD operations on data connection objects.ThoughtSpot users with `ADMINISTRATION` or `DATAMANAGEMENT` privilege can create a connection to any of the following types of data warehouses and let users search from these external data sources to generate the information they need:
+The `Connections` API endpoints allow you to perform CRUD operations on data connection objects. ThoughtSpot users with `ADMINISTRATION` or `DATAMANAGEMENT` privilege can create a connection to any of the following types of data warehouses and let users search from these external data sources to generate the information they need:
 
 * Amazon Redshift
 * Azure Synapse
@@ -818,7 +818,7 @@ Creates a connection to the specified data warehouse. +
 The endpoint requires you to define connection metadata in JSON format.  The connection can be created without tables.
 
 [#sampleJSON]
-+++<h5>JSON sample for the `data_warehouse_config` attribute</h4>+++
++++<h5>JSON sample for the data_warehouse_config attribute</h4>+++
 
 The `data_warehouse_config` attribute requires you to provide connection metadata input in JSON format. The attributes may vary based on the type of data warehouse for which the connection is being created. For example, to create a connection to a Snowflake data warehouse, the following properties and metadata are required.
 
