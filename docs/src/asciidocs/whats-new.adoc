@@ -10,7 +10,7 @@ This page provides information about new features, enhancements, and deprecated 
 
 == Version 9.2.0.cl
 
-=== Per-Org tokens and secret key for Trusted authentication
+=== Per-Org secret key and tokens for Trusted authentication
 
 ThoughtSpot now supports generating secret keys per Org. Org administrators can generate a secret key for trusted authentication in their Org context and allow their Org users to obtain authentication tokens using this secret key.
 
@@ -26,10 +26,12 @@ The 9.2.0.cl release introduces the following new variables for custom styling o
 * `--ts-var-search-auto-complete-subtext-font-color`
 * `--ts-var-answer-edit-panel-background-color`
 
-For more information, see xref:css-customization.adoc[Customize CSS].
+For more information, see xref:css-customization.adoc#_search_bar_and_data_panel[Customize CSS].
 
 === GraphQL playground [beta betaBackground]^Beta^
-The *Develop* tab in the ThoughtSpot UI introduces a GraphQL playground to explore the REST API v2.0 operations and try out GrpahQL queries and mutations. To enable this feature on your instance, contact ThoughtSpot Support.
+The *Develop* tab in the ThoughtSpot UI introduces the GraphQL playground to allow users to interact with GraphQL endpoints and run query and mutation operations. To enable this feature on your instance, contact ThoughtSpot Support.
+
+For more information, see xref:graphql-playground.adoc[GraphQL Playground].
 
 === Runtime Parameter overrides
 
@@ -41,6 +43,12 @@ For more information, see xref:runtime-parameters.adoc[Runtime Parameter overrid
 ====
 In the 9.2.0.cl release, ThoughtSpot does not support applying runtime Parameter overrides via Visual Embed SDK or REST API v2.0 endpoints.
 ====
+
+=== Link customization
+
+You can now customize the navigation links in your app using the *Generic link* option in the *Develop* > *Customization* > *Link settings* page.
+
+For more information, see xref:customize-links.adoc#_customize_link_format[Customize links].
 
 === Cross filters and contextual menu changes [eaTag eaBackground]#Early Access#
 
@@ -73,6 +81,8 @@ We recommend using a development environment to test your customizations before 
 === Note tiles on Liveboards [eaTag eaBackground]#Early Access#
 
 In the new Liveboard experience mode, you can now add Note tiles with custom text, images, and links. This feature is turned off by default and can be enabled by ThoughtSpot administrators.
+
+For more information, see xref:enable-liveboardv2.adoc#noteTiles[Note tiles].
 
 === Visual Embed SDK
 
@@ -108,15 +118,14 @@ Starting with 9.0.0.cl, the REST API v2 [beta betaBackground]^Beta^ API endpoint
 
 The new REST API v2.0 endpoints introduce several improvements to the request and response structure and let you perform more tasks in a single API call. For example, you can create a new user, map the user to groups and Orgs, set home Liveboards for the user, and assign privileges in a single API request.
 
-[IMPORTANT]
-====
+[div announcementBlock]
+--
 * All REST API v2 [beta betaBackground]^Beta^ endpoints are deprecated, but remain functional until further notice. The REST API SDK that was available with REST API v2 [beta betaBackground]^Beta^ version is no longer supported. +
 ThoughtSpot does not recommend using REST API v2 [beta betaBackground]^Beta^ endpoints for production use cases. For more information, see xref:deprecated-features.adoc#_deprecation_of_rest_v2_api[Deprecation announcements].
 * The new REST API v2.0 endpoints are not an extension of the REST API v2 [beta betaBackground]^Beta^ endpoints. The resource categories, base path, endpoint URIs, and the structure of API requests and responses are different from those of the REST API v2 [beta betaBackground]^Beta^ version.
 * Some API operations such as the CRUD operations for data connections and passing runtime filters on Liveboard visualizations are not available in the initial release. For more information, see xref:rest-api-v1v2-comparison.adoc[REST API v1 and v2.0 comparison] and xref:rest-api-v2-reference.adoc[REST API v2.0 reference].
 * For Org CRUD operations in production environments, ThoughtSpot recommends using xref:org-manage-api.adoc[REST API v1 endpoints].
-====
-
+--
 ====
 
 .Early Access features

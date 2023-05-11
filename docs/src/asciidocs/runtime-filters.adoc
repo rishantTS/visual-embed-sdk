@@ -8,6 +8,12 @@
 
 Runtime filters provide the ability to apply filters to a Liveboard or Answer by passing filter properties as query parameters in a Liveboard or visualization URL. You can also apply runtime filters in REST API requests when querying data from a Liveboard, Answer, or a visualization object. On embedded instances, you can use the Visual Embed SDK to apply filters to an embedded Liveboard or Answer object, and also update filters using events.
 
+
+[NOTE]
+====
+The runtime filters operation returns an error if the URL exceeds 2000 characters.
+====
+
 == How runtime filters work
 
 The runtime filters can be specified in the ThoughtSpot object URL as query parameters. When you apply a runtime filter to a Liveboard, ThoughtSpot will try to find a matching column in the Liveboard visualizations to filter data. The runtime filter requires the following attribute-value pairs.
@@ -19,7 +25,6 @@ operator::
 __String__. The xref:runtime-filters.adoc#rtOperator[runtime filter operator]. For example, `EQ` or `IN`. This attribute is defined as `op1`, `op2`, `op3` in the object URLs and as xref:runtime-filters.adoc#runtimeFilterOp[`operator` in the `runtimeFilters` array] in the Visual Embed SDK.
 
 +
-
 [#rtOperator]
 .Supported runtime filter operators
 [%collapsible]
@@ -566,4 +571,3 @@ curl -X POST \
 * If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
 * You cannot apply a runtime filter on a Liveboard or visualization built from tables and worksheets that have chasm traps.
-
