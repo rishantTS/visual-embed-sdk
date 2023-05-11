@@ -6,7 +6,7 @@
 * link:{{navprefix}}=introduction[Home]
 
 * Embedded analytics
-** link:{{navprefix}}=embed-analytics[ThoughtSpot Everywhere]
+** link:{{navprefix}}=embed-analytics[Overview]
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started with embedding]
 ** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
@@ -56,6 +56,7 @@
 *** link:{{navprefix}}=actions[Actions Reference]
 ** link:{{navprefix}}=embed-data-restapi[Embed objects using REST API]
 **  link:{{navprefix}}=embed-without-sdk[Embed without SDK]
+
 ** Runtime overrides
 *** link:{{navprefix}}=runtime-filters[Runtime filters]
 *** link:{{navprefix}}=runtime-sort[Runtime sorting]
