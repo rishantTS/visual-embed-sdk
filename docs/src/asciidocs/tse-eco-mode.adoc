@@ -4,9 +4,9 @@
 
 :page-title: Update cluster state
 :page-pageid: tse-dynamic-sense-cluster
-:page-description:  If you are using a ThoughtSpot Cloud cluster econoly mode for you embedded applications, use the APIs to restart an inactive cluster.
+:page-description:  If you are using a ThoughtSpot Cloud cluster in the economy mode in your embedded deployments, use the APIs to restart an inactive cluster.
 
-If you are using a ThoughtSpot Cloud cluster in embedded deployments in your development or production environment, you can enable dynamic idle sensing to save costs and allow your cluster to operate in the `economy` mode. To enable this feature on your clusters, contact ThoughtSpot Support.
+If you are using a ThoughtSpot Cloud cluster in embedded deployments in your development or production environment, you can enable idle sensing to save costs and allow your cluster to operate in `economy` mode. To enable this feature on your clusters, contact ThoughtSpot Support.
 
 == Idle sensing and cluster states
 If idle sensing is enabled on your cluster, your cluster will be automatically stopped if there is no user activity detected for a given time threshold. By default, the idle time threshold is set to 120 minutes.
@@ -20,9 +20,14 @@ Indicates that the cluster is down for maintenance due to upgrade or patching.
 * `STOPPED`
 Indicates that the cluster is stopped and no user activity is detected.
 * `STARTING`/`PENDING` +
-Cluster is currently starting, or some other workflow is running on the cluster.
+The cluster is currently starting, or some other workflow is running on the cluster.
 
-== Update cluster status using APIs
+== Identify the status of your cluster
+By default, a ThoughtSpot cluster running the `economy` mode stops if there is no user activity for two hours. When a user tries to access a cluster that's in the `STOPPED` state, the API calls will return the `"cluster-state": "Stopped"` in the response header.
+
+To use the cluster, you must start the cluster by completing the steps described in the following section.
+
+== Start an inactive cluster using API
 On a regular ThoughtSpot Cloud cluster, users can restart an inactive cluster using `CAPTCHA`. However, on embedded instances, the `CAPTCHA`-based cluster activation is not supported. Instead, the embedded  application user can send a `GET` request to their instance with the following query parameters in the request URL:
 
 * `tse=true`
@@ -50,17 +55,21 @@ https://<cluster-name>.thoughtspotstaging.cloud/?tse=true&start_cluster=true
 https://<cluster-name>.thoughtspotdev.cloud/?tse=true&start_cluster=true
 ----
 
-In the request header, you must also pass the `secret-key` as `Auth-Token`. The `secret_key` is used for authenticating users and is generated when xref:trusted-authentication.adoc#_trusted_authentication[trusted authentication is enabled] on a ThoughtSpot instance. Embedded application users can obtain the `secret key` from their ThoughtSpot administrator.
+In the request header, you must also pass the `secret-key`:
 
-<Add example -TBD>
+----
+'secret-key=<secret-key>'
+----
 
-If the `GET` request is successful, the API returns the 200 response code with the application details in the response body, and the cluster starts.
+The `secret-key` is used for authenticating users and is generated when xref:trusted-authentication.adoc#_trusted_authentication[trusted authentication is enabled] on a ThoughtSpot instance. Embedded application users can obtain the `secret key` from their ThoughtSpot administrator.
+
+If the `GET` request is successful, the cluster starts.
 
 == Response header
 Note the cluster state in the response header:
 
 * `STARTING` +
-Indicates that the cluster is starting.
+Indicates that the cluster is starting. It may take a few minutes for the cluster to become active.
 * `UNKNOWN` +
 Indicates a possible error. Contact your administrator or ThoughtSpot Support if the cluster does not start in 5-10 minutes.
 

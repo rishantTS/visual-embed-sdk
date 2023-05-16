@@ -8,6 +8,12 @@
 
 This page provides information about new features, enhancements, and deprecated functionality in ThoughtSpot Everywhere.
 
+== Version 9.3.0.cl, Coming soon
+
+=== Cookieless authentication
+
+
+
 == Version 9.2.0.cl
 
 === Per-Org secret key and tokens for Trusted authentication
