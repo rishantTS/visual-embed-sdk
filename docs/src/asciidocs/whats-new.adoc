@@ -12,6 +12,15 @@ This page provides information about new features, enhancements, and deprecated 
 
 === Cookieless authentication
 
+=== APIs for cluster management
+
+===  Version control APIs for GIT workflows
+
+=== Per-Org style customization
+
+=== Visual Embed SDK
+
+=== REST API
 
 
 == Version 9.2.0.cl
