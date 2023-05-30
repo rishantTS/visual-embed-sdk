@@ -65,6 +65,7 @@ aside {
         padding-bottom: $padding-sm;
         padding-left: $padding-md;
         font-size: $font-size-normal;
+        display: flex;
     }
 
     ul {
@@ -76,12 +77,11 @@ aside {
     .navWrapper {
         margin-bottom: 12px;
         padding-top: 5px;
-
         & > .ulist {
             & > ul > li {
                 margin-bottom: $margin-md;
                 & > p {
-                    padding-right: $padding-xs;
+                    padding-right: 5px;
                     color: var(--primary-color);
                     font-weight: $font-weight-bold;
                     cursor: pointer;
@@ -97,6 +97,7 @@ aside {
                 .ulist {
                     ul {
                         padding-left: $padding-nested-ul;
+                        margin-top: 5px;
                         li {
                             margin: $margin-links 0;
                             p {
@@ -190,8 +191,8 @@ aside {
     }
 
     .downArrowIcon {
-        width: 13px;
-        height: 13px;
+        width: 16px;
+        height: 16px;
         position: relative;
         top: 2px;
     }
