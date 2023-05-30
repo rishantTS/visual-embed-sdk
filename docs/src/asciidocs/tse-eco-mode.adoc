@@ -1,4 +1,4 @@
-= Update cluster state
+= Manage your cluster state
 :toc: true
 :toclevels: 1
 
@@ -6,7 +6,7 @@
 :page-pageid: tse-dynamic-sense-cluster
 :page-description:  If you are using a ThoughtSpot Cloud cluster in the economy mode in your embedded deployments, use the APIs to restart an inactive cluster.
 
-If you are using a ThoughtSpot Cloud cluster in embedded deployments in your development or production environment, you can enable idle sensing to save costs and allow your cluster to operate in `economy` mode. To enable this feature on your clusters, contact ThoughtSpot Support.
+If you are using a ThoughtSpot Cloud cluster for embedded deployments in your development or production environment, you can enable idle sensing to save costs and allow your cluster to operate in `economy` mode. To enable this feature on your clusters, contact ThoughtSpot Support.
 
 == Idle sensing and cluster states
 If idle sensing is enabled on your cluster, your cluster will be automatically stopped if there is no user activity detected for a given time threshold. By default, the idle time threshold is set to 120 minutes.

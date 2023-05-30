@@ -165,7 +165,6 @@ Using older tokens to renew a user session will lead to authentication failure.
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthToken,
-    username: "<username>",
     getAuthToken: () => {
     return fetch('https://my-backend.app/ts-token')
         .then((response) => response.json())
@@ -192,7 +191,6 @@ init({
 ----
 ////
 
-
 After obtaining the token, a `POST` request is sent to the login token API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
 
 === Cookieless authentication
@@ -208,7 +206,6 @@ To enable cookieless authentication in the SDK:
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthTokenCookieless,
-    username: "<username>",
     getAuthToken: () => {
  	return fetch('https://my-backend.app/ts-token')
         .then((response) => response.json())
@@ -225,6 +222,11 @@ When a user session expires, the embedded app redirects its users to the login p
 disableLoginRedirect: true,
 autoLogin: true,
 ----
+
+[NOTE]
+====
+If you are using Cookieless authentication (`AuthType.TrustedAuthTokenCookieless`), you do not need to set the `autoLogin` parameter to `true`. Because when the bearer token expires, a new token will be generated and fetched from the authentication server to sign in the user to the embedded ThoughtSpot instance.
+====
 
 Unlike the SAML workflow, the trusted authentication workflow logs in via AJAX requests that are not visible to the end-user, even if they fail. Use the event emitter returned by the `init` call to listen to the login failure events. You can also register an event handler to trigger the xref:embed-events.adoc[AuthInit event] to detect and respond to errors in the login process.
 

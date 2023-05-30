@@ -10,7 +10,14 @@ This changelog lists only the changes introduced in the Visual Embed SDK. For a 
 
 == Version 1.22.0, June 2023
 
-<TBD>
+[width="100%" cols="1,4"]
+|====
+|[tag greenBackground]#NEW FEATURE# a| The new version of the SDK introduces the `TrustedAuthTokenCookieless` `authType` property to allow Cookieless embedding. The Cookieless authentication method allows using a bearer token to identify the signed-in user instead of session cookies.
+
+For more information, see xref:embed-authentication.adoc#_cookieless_authentication[Cookieless authentication].
+
+|[tag greenBackground]#NEW FEATURE# a| You can now pre-render a generic instance of the ThoughtSpot component using the `prerenderGeneric` attribute. The generic instance uses the default host and flags and can be rendered in the background to improve application response.
+|====
 
 == Version 1.21.0, May 2023
 [width="100%" cols="1,4"]

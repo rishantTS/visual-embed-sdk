@@ -10,15 +10,15 @@
 ** link:{{navprefix}}=integration-guidelines[Integration guidelines]
 ** link:{{navprefix}}=get-started-tse[Get started with embedding]
 ** link:{{navprefix}}=license-feature-matrix[Feature matrix and license types]
-* Developer portal
-** link:{{navprefix}}=spotdev-portal[Developer portal and Playground]
-** link:{{navprefix}}=developer-access[Developer access]
-** link:{{navprefix}}=dev-playground[Visual Embed Playground]
-** link:{{navprefix}}=rest-playground[REST API Playground]
-** link:{{navprefix}}=graphql-playground[GraphQL Playground ^Beta^]
+** link:{{navprefix}}=spotdev-portal[Developer portal]
+*** link:{{navprefix}}=developer-access[Developer access]
+** Developer Playground
+*** link:{{navprefix}}=dev-playground[Visual Embed Playground]
+*** link:{{navprefix}}=rest-playground[REST API Playground]
+*** link:{{navprefix}}=graphql-playground[GraphQL Playground ^Beta^]
 
-* Release highlights
-** link:{{navprefix}}=whats-new[What's new]
+* What's new
+** link:{{navprefix}}=whats-new[New features]
 *** link:{{navprefix}}=fixed-issues[Fixed issues]
 *** link:{{navprefix}}=known-issues[Known Issues]
 ** Changelog
