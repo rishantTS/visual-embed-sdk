@@ -195,11 +195,11 @@ init({
 
 After obtaining the token, a `POST` request is sent to the login token API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
 
-=== Steps to implement cookieless authentication
+=== Cookieless authentication
 
 In Trusted authentication mode, cookie-based authentication is used to maintain user sessions. If ThoughtSpot is embedded in your app using iFrame, some Web browsers with a strict third-party cookie policy block the embedded content. If the embedded content doesn’t originate from the same domain, cookie-based authentication fails. In such scenarios, you can use cookieless authentication.
 
-In cookieless authentication, your app can use bearer tokens obtained from Thoughtpot instead of cookies to authenticate a user.  This method doesn’t generate or set a JSESSIONID cookie in API calls. Instead, the bearer token stored in the app memory is used to authenticate API calls to ThoughtSpot.
+In cookieless authentication, your app can use bearer tokens obtained from Thoughtpot instead of cookies to authenticate a user.  This method doesn’t generate or set a JSESSIONID cookie in API calls. Instead, the bearer token stored in the app memory is used to authenticate API requests sent to ThoughtSpot.
 
 To enable cookieless authentication in the SDK:
 
@@ -216,7 +216,6 @@ init({
     },
 });
 ----
-
 
 ==== Autologin and redirects
 
