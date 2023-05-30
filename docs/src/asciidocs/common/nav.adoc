@@ -127,15 +127,16 @@
 *** link:{{navprefix}}=materialization-api[Materialization API]
 *** link:{{navprefix}}=database-api[Database API]
 
-
 * Additional resources
 ** link:{{navprefix}}=faqs[FAQs]
 ** link:{{navprefix}}=troubleshoot-errors[Troubleshoot errors]
 ** link:{{navprefix}}=code-samples[Code samples]
 ** link:https://developers.thoughtspot.com[ThoughtSpot Developers, window=_blank]
 ** link:https://community.thoughtspot.com/customers/s/[Community, window=_blank]
-** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
+** link:https://developers.thoughtspot.com/guides[Tutorials, window=_blank]
+** link:https://developers.thoughtspot.com/codespot[CodeSpot, window=_blank]
 ** link:https://training.thoughtspot.com/page/developer[Training resources, window=_blank]
+** link:https://cloud-docs.thoughtspot.com[Product Documentation, window=_blank]
 ** link:{{navprefix}}=rest-apiv2-beta-reference[REST API v2 ^Beta^ Reference (Deprecated)]
 
 ////

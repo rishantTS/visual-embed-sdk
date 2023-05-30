@@ -53,9 +53,10 @@
 
 aside {
     padding: 0 0 $padding-md 10px;
+    background-color: #fff;
     width: 100%;
-    box-shadow: var(--box-shadow);
     border-right: 0.5px var(--border-color) solid;
+    box-shadow: var(--box-shadow);
     left: $gutter;
     height: 100vh;
     overflow-y: auto;
@@ -83,7 +84,7 @@ aside {
                 margin-bottom: $margin-md;
                 & > p {
                     padding-right: 5px;
-                    color: var(--primary-color);
+                    color: var(--sidebar-text-color);
                     font-weight: $font-weight-bold;
                     cursor: pointer;
                     display: flex;
