@@ -30,7 +30,7 @@ The following table lists the general recommendations for choosing an authentica
 [width="100%" cols="4,4,6,6"]
 [options='header']
 |=====
-|Authentication type|AuthType in SDK|When to use|Not recommended when
+|Authentication type|AuthType in SDK|When to use|Not recommended
 |xref:embed-authentication.adoc#embedSSO[Embedded SSO authentication] (Recommended) |`AuthType.EmbeddedSSO` a| Use this method: +
 
 * If your application is already using a SAML IdP or OpenID provider that allows iframe redirects.
@@ -55,7 +55,7 @@ a|ThoughtSpot does not recommend using trusted authentication in the following s
 * If you don’t have an app backend component to host the authentication server needed for trusted authentication.
 
 
-|`AuthType.TrustedAuthTokenCookieless` a| Use this method to implement cookieless authentication to bypass third-party cookie-blocking restrictions by Web browsers.
+|`AuthType.TrustedAuthTokenCookieless` a| Use this authentication type to implement cookieless authentication if your Web browsers block third-party cookies.
 
 a|Do not use this method if you don’t have an app backend component to host the authentication server needed for trusted authentication.
 
@@ -128,20 +128,44 @@ Trusted authentication requires xref:security-settings.adoc#cors-hosts[setting u
 
 === Steps to configure trusted authentication in Visual Embed SDK
 
-To configure the trusted authentication method in the Visual Embed SDK, set the `authType` attribute as `TrustedAuthToken`.
+The Visual Embed SDK supports the following token-based authentication methods:
 
-To obtain authentication tokens, you can either set the `authEndPoint` attribute or call the `getAuthToken` method:
+* `AuthType.TrustedAuthToken`
++
+Generates a bearer token for a given user and sets a JSESSIONID cookie to identify the signed-in user in subsequent sessions.
+
+* `AuthType.TrustedAuthTokenCookieless`
++
+Generates a bearer token for a given user and uses it to identify the signed-in user in subsequent sessions.  This method doesn’t generate or set a JSESSIONID cookie in API calls. Instead, the bearer token stored in the app memory is used to authenticate API requests to ThoughtSpot. +
+If the embedded content in your app doesn’t originate from the same domain as your embedding application, and your Web browsers restrict third-party cookies and block embedded content, you can implement cookieless authentication.
+
+==== Generate tokens
+
+To obtain an authentication token for a given user, you can either set the `authEndPoint` attribute or call the `getAuthToken` method in the SDK:
 
 * `**authEndpoint**`
 +
 Specify the authentication endpoint URL from which you want to obtain the authentication token. When an API request is sent to the specified endpoint URL, the authentication server sends the token as plain text.
 
 +
+.Cookie-based authentication
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthToken,
+    username: "<username>",
+    authEndpoint: "https://authenticator-server:<port>/endpoint",
+});
+----
+
++
+.Cookieless authentication
+[source,javascript]
+----
+init({
+    thoughtSpotHost: "https://<hostname>:<port>",
+    authType: AuthType.TrustedAuthTokenCookieless,
     username: "<username>",
     authEndpoint: "https://authenticator-server:<port>/endpoint",
 });
@@ -160,22 +184,7 @@ Using older tokens to renew a user session will lead to authentication failure.
 ====
 
 +
-[source,javascript]
-----
-init({
-    thoughtSpotHost: "https://<hostname>:<port>",
-    authType: AuthType.TrustedAuthToken,
-    getAuthToken: () => {
-    return fetch('https://my-backend.app/ts-token')
-        .then((response) => response.json())
-        .then((data) => data.token);
-    },
-});
-----
-
-
-////
-+
+.Cookie-based authentication
 [source,javascript]
 ----
 init({
@@ -183,31 +192,21 @@ init({
     authType: AuthType.TrustedAuthToken,
     username: "<username>",
     getAuthToken: () => {
- 	return fetch(`https://your-remote-url.com/some/path/${username}`)
-	    .then(response => response.json())
-	    .then(json => json.token);
-    },
+    return fetch('https://{YOUR-backend.app}/ts-token')
+        .then((response) => response.json())
+        .then((data) => data.token);
 });
 ----
-////
 
-After obtaining the token, a `POST` request is sent to the login token API endpoint with `username` and authentication token in the request body. If the request is successful, the SDK renders the embedded content.
-
-=== Cookieless authentication
-
-In Trusted authentication mode, cookie-based authentication is used to maintain user sessions. If ThoughtSpot is embedded in your app using iFrame, some Web browsers with a strict third-party cookie policy block the embedded content. If the embedded content doesn’t originate from the same domain, cookie-based authentication fails. In such scenarios, you can use cookieless authentication.
-
-In cookieless authentication, your app can use bearer tokens obtained from Thoughtpot instead of cookies to authenticate a user.  This method doesn’t generate or set a JSESSIONID cookie in API calls. Instead, the bearer token stored in the app memory is used to authenticate API requests sent to ThoughtSpot.
-
-To enable cookieless authentication in the SDK:
-
++
+.Cookieless authentication
 [source,javascript]
 ----
 init({
     thoughtSpotHost: "https://<hostname>:<port>",
     authType: AuthType.TrustedAuthTokenCookieless,
     getAuthToken: () => {
- 	return fetch('https://my-backend.app/ts-token')
+ 	return fetch('https://{YOUR-backend.app}/ts-token')
         .then((response) => response.json())
         .then((data) => data.token);
     },

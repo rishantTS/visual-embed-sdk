@@ -25,7 +25,19 @@ The cluster is currently starting, or some other workflow is running on the clus
 == Identify the status of your cluster
 By default, a ThoughtSpot cluster running the `economy` mode stops if there is no user activity for two hours. When a user tries to access a cluster that's in the `STOPPED` state, the API calls will return the `"cluster-state": "Stopped"` in the response header.
 
-To use the cluster, you must start the cluster by completing the steps described in the following section.
+[source,cURL]
+----
+ $ curl https://<cluster-name>.thoughtspot.cloud  --head
+  HTTP/1.1 200 OK
+  Server: awselb/2.0
+  Date: Tue, 30 May 2023 15:27:01 GMT
+  Content-Type: text/html
+  Content-Length: 3348
+  Connection: close
+  Cluster-State: Stopped
+----
+
+To restart the cluster, complete the steps described in the following section.
 
 == Start an inactive cluster using API
 On a regular ThoughtSpot Cloud cluster, users can restart an inactive cluster using `CAPTCHA`. However, on embedded instances, the `CAPTCHA`-based cluster activation is not supported. Instead, the embedded  application user can send a `GET` request to their instance with the following query parameters in the request URL:
@@ -55,10 +67,25 @@ https://<cluster-name>.thoughtspotstaging.cloud/?tse=true&start_cluster=true
 https://<cluster-name>.thoughtspotdev.cloud/?tse=true&start_cluster=true
 ----
 
-In the request header, you must also pass the `secret-key`:
+In the request header, you must also pass the `security-key`:
 
 ----
-'secret-key=<secret-key>'
+'security-key={security-key}'
+----
+
+The following example shows the cURL request URL for restarting a cluster:
+
+[source, cURL]
+----
+$ curl -X GET 'https://<cluster-name>.thoughtspot.cloud/?tse=true&start_cluster=true' \
+ -H 'security-key: e8ade677-c3f1-461d-8b7f-7f0fe4e024f0' --head \
+  HTTP/1.1 200 OK
+  Server: awselb/2.0
+  Date: Tue, 30 May 2023 16:04:08 GMT
+  Content-Type: text/html
+  Content-Length: 0
+  Connection: keep-alive
+  Cluster-State: Starting
 ----
 
 The `secret-key` is used for authenticating users and is generated when xref:trusted-authentication.adoc#_trusted_authentication[trusted authentication is enabled] on a ThoughtSpot instance. Embedded application users can obtain the `secret key` from their ThoughtSpot administrator.
