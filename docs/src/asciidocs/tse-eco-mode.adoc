@@ -73,7 +73,7 @@ In the request header, you must also pass the `security-key`:
 'security-key={security-key}'
 ----
 
-The following example shows the cURL request URL for restarting a cluster:
+The following example shows the cURL request for restarting a cluster:
 
 [source, cURL]
 ----
