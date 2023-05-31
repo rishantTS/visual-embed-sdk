@@ -67,11 +67,7 @@ https://<cluster-name>.thoughtspotstaging.cloud/?tse=true&start_cluster=true
 https://<cluster-name>.thoughtspotdev.cloud/?tse=true&start_cluster=true
 ----
 
-In the request header, you must also pass the `security-key`:
-
-----
-'security-key={security-key}'
-----
+In the request header, you must also pass the `security-key`. The `security-key` is used for authenticating users and is generated when xref:trusted-authentication.adoc#trusted-auth-enable[trusted authentication is enabled] on a ThoughtSpot instance. Embedded application users can obtain the `security key` from their ThoughtSpot administrator.
 
 The following example shows the cURL request for restarting a cluster:
 
@@ -87,8 +83,6 @@ $ curl -X GET 'https://<cluster-name>.thoughtspot.cloud/?tse=true&start_cluster=
   Connection: keep-alive
   Cluster-State: Starting
 ----
-
-The `secret-key` is used for authenticating users and is generated when xref:trusted-authentication.adoc#_trusted_authentication[trusted authentication is enabled] on a ThoughtSpot instance. Embedded application users can obtain the `secret key` from their ThoughtSpot administrator.
 
 If the `GET` request is successful, the cluster starts.
 
