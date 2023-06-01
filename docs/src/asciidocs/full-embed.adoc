@@ -338,6 +338,20 @@ appEmbed.on(EmbedEvent.CustomAction, async (payload: any) => {
 })
 ----
 
+== Block access to non-embedded ThoughtSpot instance
+
+In full app embed deployments, the SDK allows you to prevent embed application users from accessing ThoughtSpot application outside the context of your host app. You can set the `blockNonEmbedFullAppAccess` property in the SDK to allow or block user access to the application instance used for rendering embedded objects in your app. By default, the `blockNonEmbedFullAppAccess` property is set to `true`.
+
+[source,javascript]
+----
+init({
+   // ...
+    blockNonEmbedFullAppAccess: true,
+});
+----
+
+You can also enable the *Block non-embed full app access* feature on the *Develop* > *Customizations* > *Security Settings* page to block user access. However, the `blockNonEmbedFullAppAccess` setting in the SDK takes precedence over the *Block non-embed full app access* setting in the UI.
+
 == Render the embedded application
 
 Render the embedded application.
@@ -346,7 +360,6 @@ Render the embedded application.
 ----
 appEmbed.render();
 ----
-
 
 
 == Test the embedded workflows
