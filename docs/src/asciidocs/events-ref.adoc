@@ -30,7 +30,7 @@ document.getElementById('tryBtn').addEventListener('click', e => {
 * Click *Run*.
 * Click *Try* to trigger the action.
 
-The following video shows how to register `HostEvent.RemoveColumn` event and remove a column from the search query string using the *Try* button:
+The following video shows how to register `HostEvent.RemoveColumn` and remove a column from the search query string using the *Try* button:
 
 [div videoContainer]
 --
@@ -611,7 +611,7 @@ Removes a column from the current Search.
 [source,JavaScript]
 ----
 searchEmbed.trigger(HostEvent.RemoveColumn, {
-columnId: '085f9694-0d02-479e-973a-d216336e5253'})
+    columnId: '085f9694-0d02-479e-973a-d216336e5253'})
 ----
 ====
 --
