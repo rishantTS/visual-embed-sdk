@@ -1,54 +1,126 @@
-= Development and deployment using TML and REST API
+= Version control with Git integration
 :toc: true
 :toclevels: 2
 
-:page-title: Development and deployment using TML and REST API
-:page-pageid: development-and-deployment
-:page-description: Development and deployment following the SDLC practices can be achieved using TML and REST API
+:page-title: Version control and Git integration for deployments
+:page-pageid: git-integration
+:page-description: The version control APIs and Git integration capability let you connect your ThoughtSpot instance to a Git repository, push changes, and deploy commits to your ThoughtSpot environment.
 
-When deploying embedded analytics, each organization will have defined practices for development, testing, and deployment of content to ThoughtSpot. ThoughtSpot instances act as a constantly running service, so deployment only involves publishing *ThoughtSpot content*, in the form of link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] files to a given ThoughtSpot instance.
+When embedding and deploying a third-party application in their apps, most organizations use defined practices through the development, testing, and deployment stages of their SDLC process. Developers typically use a version control system and CI-CD pipelines to push their code through several stages before publishing their application content.
 
-NOTE: Any example workflow you see within this document has been implemented and tested within the libraries available in the xref:development-and-deployment.adoc#relatedResources[Additional Resources] and we recommend that you start with these libraries and tools.
+ThoughtSpot deployments may require you to publish content from a development environment to a staging or production cluster. ThoughtSpot objects such as Tables, Worksheets, Liveboards, and Answers are stored in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] and can be downloaded as TML files to your local environment. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with a Git repository and push content in the form of TML files to CI/CD pipelines via Git workflows.
 
-== Overview
-The three steps to building an SDLC process with ThoughtSpot are:
+== Git integration overview
 
- . *xref:linkExportSource[Export source]*: Downloading ThoughtSpot objects as TML files into a source control system (Git, etc.)
- . *xref:linkBuildRelease[Build release]*: Altering copies of the TML files for the next stage / environment
- . *xref:linkImportRelease[Import release]*: Importing the TML files into the new environment
+The Git integration [beta betaBackground]^Beta^ feature supports the following capabilities:
 
-Every object on a ThoughtSpot instance has a *GUID* as a unique reference.
+* ThoughtSpot integration with Git and CI/CD pipeline
++
+Ability to connect your ThoughtSpot instance to a Git repository and deploy commits via REST API.
+* Ability to version control ThoughtSpot content
++
+Ability to build or modify your content locally on a development instance and push commits to a local or remote Git branch via APIs and then deploy changes to the production environment.
 
-The *most essential* aspect of steps 2 and 3 is recording any newly created object GUIDs from the destination environment into a *xref:guidMapping[mapping file]* along with the GUID of the source object.
+* Ability to address different types of deployment scenarios
++
+The simplest deployment scenario is moving content from a ThoughtSpot development instance to a production instance. You can also deploy multiple environments on the same ThoughtSpot instance using the xref:orgs.adoc[Orgs] feature. For example, you can create separate Orgs for `Dev`. `Staging` and `Prod` environments. The content built from the `Dev` Org can be deployed on `Staging` and `Prod` Orgs using REST API v2.0 version control endpoints.
 
-When publishing to a new environment on the same ThoughtSpot instance, you *must* swap out the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files, so that only destination environment content is referenced.
+== How it works
 
-== Deployment scenarios
+The ThoughtSpot content deployment process with version control includes the following steps:
 
-=== Instance-to-instance deployment
-The simplest deployment scenario is moving content from one ThoughtSpot instance to another separate instance.
+1. Enable Git integration on ThoughtSpot.
+2. Connect your ThoughtSpot `Dev` and `Prod` environments to the `dev` and `production` branches on your Git repository. The general practice is to use the `main` branch in your Git repository as a production branch to publish the release content.
+3. Build and modify the objects in your ThoughtSpot `Dev` environment. ThoughtSpot users with edit access to the objects can modify their Liveboard, Answers, Worksheets, and Tables.
+4. Push your changes to the Git branch mapped to the `Dev` environment. To push content and deploy commits via REST API, you need administration privileges.
+5. On the Git repository, create a pull request to merge your changes from the `dev` branch to `main` (production branch).
+6. Apply commits from the `main` branch to your `Prod` environment to deploy your content.
 
-The TML Import process will use the `guid:` property of the imported TML files as the GUID for the new objects on the destination instance on all instances later than 9.0.0, which includes all ThoughtSpot Cloud deployments.
+The following figure illustrates a simple Git integration workflow with ThoughtSpot `Dev` and `Prod` environments.
 
-This means that a mapping file or swapping in and out GUIDs is not required. You simply make sure that all Connections have the same unique names on both instances and TML files should import without any modifications.
+image::./images/git-integration-workflow.svg[Git integration workflow]
 
-If your instance is running a ThoughtSpot release version lower than 9.0.0.cl, refer to the xref:development-and-deployment.adoc#_notes_for_older_releases[Notes for older releases].
+== Get started
 
-=== Multiple environments on the same instance
+Before getting started, check the following:
 
-Many ThoughtSpot customers have multiple "environments" on the same instance, either using xref:orgs.adoc[Orgs] or well-defined xref:multitenancy-without-orgs.adoc[Access Control].
+* You require administration access to ThoughtSpot (*Can administer ThoughtSpot* privilege)
+* You have a Git repository. If using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
++
+The access token must allow the following scopes:
 
-In this scenario, you must track the equivalent GUIDS between source and destination environments, and swap them out within the TML files for your deployment process to work correctly.
+** `repo:status` +
+Access to commit status
+** `repo_deployment` +
+Access to deployment status
+** `public_repo` +
+Access to public repositories
+** `repo:invite`
+Access to repository invitations
+** `security_events` +
+Read and write security events
+* ACreate a branch in the Git repository that can be used as a default branch.
 
-The workflow for a very simple "dev" to "prod" flow on the same environment shown here, is the same pattern for any source-to-destination environment flow:
+=== Enable Git integration
+To get started with Git integration, enable the Git integration feature on your ThoughtSpot `Dev` and `Prod` environments. If Git integration is not enabled on their instance, administrators must run the following `tscli` command in the 9.3.0.cl release version.
 
-image::./images/development-deployment-process.png[Development and deployment workflow]
+[source,SSH]
+----
+tscli git-integration enable
+----
 
-[#guidMapping]
-== GUID mapping file
-As noted above, keeping a *mapping file* of GUIDs of source objects and their descendant objects in the destination environment is essential. The exact structure of the file will depend on the complexity of your deployment needs.
+=== Connect ThoughtSpot environment to Git repository
 
-The simplest pattern is to assume that releases are built exclusively from the "dev" environment, regardless of the destination environment. This pattern can be represented in the simple JSON structure:
+To connect your ThoughtSpot instance to a Git repository using REST API, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/config/create` REST API v2.0 endpoint.
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`repository_url`|__String__. URL of the Git repository.
+|`username` +
+__Optional__|__String__. Username to authenticate to the Git repository.
+|`access_token`|__String__. Access token to authenticate to the Git repository.
+|`default_branch_name`|__String__. Specify the default Git branch used for all operations on the cluster.
+|===
+
+==== Request example
+
+The following example shows the API request format for connecting ThoughtSpot to a GitHub repository.
+
+[source, cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/config/create' \
+  -H 'Authorization: Bearer {Bearer_token}  \
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "repository_url": "https://github.com/ts-git-user/gitdemo",
+  "username": "ts-git-user",
+  "access_token": "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",
+  "default_branch_name": "dev"
+}'
+----
+
+If the API request is successful, the ThoughtSpot instance will be connected to the Git repository. Make sure you connect your `Dev`, `Staging`, and `Prod` environments to the GitHub repository.
+
+* To edit the repository details, send a `POST` request with configuration parameters to the `/api/rest/2.0/vcs/git/config/update` API endpoint.
+* To get repository configuration information, send a `POST` request to `/api/rest/2.0/vcs/git/config/search` API endpoint.
+* To delete the repository configuration, send a `POST` request to the `/api/rest/2.0/vcs/git/config/delete` endpoint.
+
+For more information about these endpoints, see the API documentation in the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
+
+=== Build data objects on the `Dev` environment
+
+Your application users can create and modify their Liveboards, Answers, Connections, Worksheets, and Tables. These objects are stored as TML representations in ThoughtSpot. Users with data management (*Can manage data*) privilege can download these objects as TML files to their local environment, xref:modify-tml.adoc[edit TML files], and import them into ThoughtSpot via UI or REST API. You can push the TML files from ThoughtSpot to a Git branch mapped to your instance using REST API.
+
+==== GUID mapping
+
+Every object on a ThoughtSpot instance has a *GUID* as a unique reference. In 9.3.0.cl release, GUID mapping is not supported when committing your files to Git. You must manually track the newly created object GUIDs from the destination environment into a GUID mapping file along with the GUID of the source object. The exact structure of the file will depend on the complexity of your deployment.
+
+The following example shows a simple mapping of object GUIDs in JSON format:
 
 [source,json]
 ----
@@ -56,8 +128,8 @@ The simplest pattern is to assume that releases are built exclusively from the "
   "test": {
     "<dev-env-guid>" :  "<test-env-guid>"
   },
-  "uat": {
-    "<dev-env-guid>" :  "<uat-env-guid>"
+  "staging": {
+    "<dev-env-guid>" :  "<staging-env-guid>"
   },
   "prod": {
     "<dev-env-guid>" :  "<prod-env-guid>"
@@ -66,243 +138,192 @@ The simplest pattern is to assume that releases are built exclusively from the "
 }
 ----
 
-More complex data structures can be used if you have the possibility of multiple source environments. The important aspect is recording the source GUID along with the GUID of the equivalent object in the destination.
+When publishing to a new environment, you *must* swap out the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files, so that only destination environment content is referenced.
 
-Note that this pattern assumes 1:1 equivalence between the source and destination environment.
+=== Commit TML files to Git
 
-[#linkExportSource]
-== Export source process
-The process for exporting TML files into source control is:
+To commit the updates to a branch in Git repository via REST API, you need administrator (*Can administer ThoughtSpot*) privileges.
 
- . Use Metadata APIs (xref:metadata-api.adoc#metadata-list[/metadata/list] in v1 or xref:rest-apiv2-reference.adoc#_metadata[/metadata/search] in v2.0) to get a filtered list of objects
- . Use `/metadata/tml/export` endpoint in REST API xref:tml-api.adoc#export[v1] or v2.0 with `export_fqns=true` argument and `formmattype=YAML` to retrieve the TML of the object
- . Save the TML response strings to disk in a Git-enabled directory using a consistent name format
+To commit TML objects to a branch in Git, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/branches/commit` API endpoint.
 
-You can use the link:https://thoughtspot.github.io/cs_tools/cs-tools/scriptability/[CS Tool Scriptibility, window=_blank] package for a pre-built tool for programmatic exporting or build your own equivalent using the link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot_rest_api_v1 Python library, window=_blank].
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`metadata`|__Array of Strings__. Specify the `type` and GUID of the metadata object.
+|`branch_name` +
+__Optional__|__String__. Name of the branch in the Git repository to which you want to push.
+|`comment`|__String__. Add a comment to the commit.
+|===
 
-=== Best practices with TML export API
-The `formattype` argument can be set to `YAML` or `JSON`.
+==== Request example
 
-Export in YAML for saving to disk for source control or use with the `thoughtspot_tml` library. Export in JSON when you need details from TML within a web browser or just need to read values programmatically.
+The following example shows the API request with Liveboard and Worksheet objects to commit to Git.
 
-You can pass any number of GUIDs in the `export_ids` argument, although it is simpler to retrieve one at a time, particularly when processing the results obtained from the `export_associated=true` option.
-
-The `export_associated` argument retrieves the TML objects for all related objects when used, including the GUID of each object within the headers. This is useful for dependency checking, and was valuable in versions lower than 8.9.0.cl to fill in fqn values. For more information, see xref:olderReleaseNotes[Notes for older releases].
-
-[#linkBuildRelease]
-== Build release process
-To change the source environment TML files so that they can be imported into the destination environment, you need a process that correctly manipulates the TML files.
-
-Common adjustments include:
-
- - Switching connections at the Table level
- - Changing database details within Table objects
- - Adding or removing columns
- - Renaming columns for translations
-
-For information about the specific TML changes to achieve these goals, see xref:modify-tml.adoc[Modify TML files]. There are also functioning code examples of many of these changes in the link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot_tml, window=_blank] repository.
-
-=== GUIDs in TML files determine create vs update operations
-
-Objects of the same or different types can have the same display name in ThoughtSpot, so the GUID is necessary to identify the particular object.
-
-In the REST APIs, `id` properties are the GUIDs.
-
-In TML:
-
- - the `guid:` property will be at the top of the file
- - `fqn:` properties are used to reference other connected objects (typically data sources) with a GUID
-
-==== Rules for create vs. update operations
-Object names are *never used* for determining an object to update, because object names are not unique within ThoughtSpot.
-
-Whether an imported TML will create a new object or update an existing object depends on:
-
- - The presence/absence of the *guid:* property in the TML file
- - Whether that GUID matches an existing object on that ThoughtSpot instance
- - The `force_create=true` parameter
-
-Creation vs. update is determined by the following rules:
-
- - *No GUID* in the TML file: always creates a new object with a new GUID
- - *GUID in TML file*, where an object with the *same GUID already exists* in instance: update object
- - *GUID in TML file*, where *no object with same GUID exists* in ThoughtSpot instance: creates a new object with the GUID from the TML file
- - *Table objects* match on fully-qualified tables in the database (each Connection can only have one Table object per table in the database), not GUID: If a Table object representing the same database table is found, the GUID of the original object is maintained, but the updates are applied from the new TML file
- - *force_create=true* parameter of the TML Import API is used: every uploaded TML file results in new objects being created
-
-[NOTE]
-====
-In versions prior to 9.0.0.cl, ThoughtSpot did not consistently use the GUID provided in the TML file for a new object when that GUID was not already in use on that ThoughtSpot instance.
-====
-
-=== GUID mapping and swapping
-Regardless of the other changes you make, building a release for an environment on the same instance will require swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
-
-The *guid mapping file* is referenced when creating the final TML files for publishing and then should be updated with any new object GUIDs after publishing:
-
- . Check the *guid mapping file*
- .. If no key-value pair exists for the *dev GUID* for the new environment: *remove the guid property from the TML file*. This will cause a *create* action
- .. If a key-value pair exists: *swap* the TML file *guid* value from the *dev GUID* to the *destination environment GUID*. This will cause an *update* action
- . When a new object is published for the first time, record the *dev GUID* as the key, and the *new object GUID* as the value
- . Perform the same process for any *fqn* properties, which specify data object references. Remove the *fqn* property if the data object is being newly created, or swap it to the mapped GUID for that environment
-
-The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot_tml library, window=_blank] provides a helper function called `disambiguate()` which implements the logic described above when provided with a Dict representing the GUID map. For information about how to use the library, see the README and examples or look at the source code if building an equivalent process yourself in another language.
-
-
-[#linkImportRelease]
-== Import release process
-The xref:tml-api#import[/metadata/tml/import] REST API endpoint is used to upload any number of TML files at one time.
-
-All details of the objects to be created or modified are specified *within the uploaded TML file*, including the GUID which determines which existing object a given TML file will update.
-
-The xref:development-and-deployment#linkBuildRelease[Build release process] section above describes the process for getting the TML files prepared for the import release process. The following describes the Import TML REST API call and what to do with the responses, which do feed back into the build release process in the form of the *GUID mapping file*.
-
-=== TML import options and responses
-
-==== Import related TML files together
-ThoughtSpot does not consider object display name for a TML file, but does use name matching for data object references within a TML file.
-
-All data objects are referenced as "tables" within TML, whether they are a ThoughtSpot table, Worksheet, View, SQL view, or any other data object type.
-
-The following heuristic is used to find matching objects by name within `tables` or `joins` sections:
-
- . Data object names within the same TML Import operation: Must only be one single object with that name
- . Searches the entire ThoughtSpot instance: Must be only one single object with that name
-
-The best practice is to create and upload "packages" of related objects together at once:
-
-* Give data objects within a package unique names, even though not enforced by ThoughtSpot
-* All Table objects that use the same Connection object and all Worksheets connected to those tables should be uploaded together in a single TML Import
-* If a data object already exists, swap out the *fqn* references to avoid the name matching heuristic
-
-==== Storing new GUIDs in a mapping
-To track relationships between objects in different environments, particularly on the same instance, you must store a *mapping* of the child object GUID to its source object GUID when you first publish the child object.
-
-The xref:tml-api#import[import REST API endpoint] returns the GUID in the response after a successful import. The `object` key of the response to the import call contains an array, where each element has a `["response"]["header"]["id_guid"]` key providing the GUID. If you import multiple TML files at once, the response array will be in the same order as the request. This allows you to record a mapping of the originating GUID to the newly created GUIDs.
-
-[source,json]
+[source,cURL]
 ----
-{
-  "object": [
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/branches/commit' \
+  -H 'Authorization: Bearer {Bearer_token}\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata": [
     {
-      "response": {
-        "status": {
-          "status_code": "OK"
-        },
-        "header": {
-          "id_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
-          "name": "Basic Answer 1",
-          "description": "This is basic answer with table and headline visualizations.",
-          "author_guid": "59481331-ee53-42be-a548-bd87be6ddd4a",
-          "owner_guid": "a09a3787-e546-42cb-888f-c17260dd1229",
-          "metadata_type": "QUESTION_ANSWER_BOOK"
-        }
-      }
+      "identifier": "e9d54c69-d2c1-446d-9529-544759427075",
+      "type": "LIVEBOARD"
+    },
+    {
+      "identifier": "cd252e5c-b552-49a8-821d-3eadaa049cca",
+      "type": "LOGICAL_TABLE"
     }
-  ]
-}
+  ],
+  "comment": "Add objects",
+  "branch_name": "dev"
+}'
 ----
 
-Update the *mapping file* with the new pair of source object GUID and destination environment object GUID, so that the release build process can do the appropriate swaps the next time the object needs to be updated.
+If the API request is successful, the objects will be added to the specified GitHub branch. When the TML objects are added to a Git branch, subsequent commits to that branch from ThoughtSpot update the objects in the Git repository.
 
+When committing, if there are no changes detected between the current version in Git, and the version being committed from the ThoughtSpot instance, the API call will succeed, but a warning message is returned with a list of objects that were not updated as part of the commit.
 
-[#relatedResources]
-== Additional Resources
+ThoughtSpot provides a REST API endpoint to search commits for a given TML object. A `POST` call to the `/api/rest/2.0/vcs/git/commits/search` endpoint with `metadata` identifier and `type` in the request body fetches a list of commits.
 
-* The link:https://github.com/thoughtspot/thoughtspot_tml[thoughtspot-tml module, window=_blank] is written in Python providing classes to work with the TML files as Python objects. You can install it via pip:
+==== Steps to revert a commit
+At any point, if you want to revert a commit and return to an earlier version of an object, make a `POST` request to the `/v2/vcs/commits/{commit_id}/revert` API endpoint.
 
-+
+===== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`commit_id`|__String__. Commit ID to which the object should be reverted.
+|`metadata` +
+__Optional__|__Array of Strings__. Specify the `type` and GUID of the metadata object. If a metadata object is not specified, the API request reverts all objects that were modified as part of the specified `commit_id`.
+|`branch_name` +
+__Optional__|__String__. Name of the branch to which the revert operation must be applied. If you do not specify the branch name, the API will revert the commit to the default branch configured on that ThoughtSpot instance.
+|`revert_policy` a|__String__. Action to apply when reverting a commit. The allowed values are: +
+
+* `ALL_OR_NONE`
+Reverts all objects. If the revert operation for one of the objects provided in the commit fails, the API will respond with an error message, and none of the objects will be reverted.
+* `PARTIAL`
+Reverts partial objects.
+|===
+
+==== Request example
+
+The following example shows the API request with Liveboard and Worksheet objects to commit to Git.
+
+[source,cURL]
 ----
-pip install thoughtspot_tml
-----
-
-* The link:https://github.com/thoughtspot/thoughtspot_rest_api_v1_python[thoughtspot-rest-api-v1 module, window=_blank] is a Python module implementing the full ThoughtSpot V1 REST API. You can install it via pip:
-
-+
-----
-pip install thoughtspot_rest_api_v1
-----
-
-* The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools[ts_rest_api_and_tml_tools project, window=_blank] provides examples of workflows using the REST API and TML modification possible with the `thoughtspot_tml` and `thoughtspot_rest_api_v1` modules. This library is intended to provide working examples and is not maintained or supported by ThoughtSpot.
-
-* The link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/[examples/tml_and_sdlc/, window=_blank] directory includes many different example scripts for these TML-based workflows.
-+
-
-Within the examples directory, the link:https://github.com/thoughtspot/ts_rest_api_and_tml_tools/blob/main/examples/tml_and_sdlc/tml_download.py[tml_download.py, window=_blank] script is a simple example of exporting all TML objects to disk for use with Git or another source control system.
-
-* For command-line administration tools including many pre-built TML-based workflows, the link:https://github.com/thoughtspot/cs_tools[cs_tools project, window=_blank] is available.
-
-== Notes for older releases (8.9.0.cl or earlier versions)
-
-[#olderReleaseNotes]
-=== Add FQNs of associated objects in TML
-Prior to ThoughtSpot 8.9.0.cl, TML files did not include the GUIDs of associated objects on export. However, you can use the `export_associated=true` argument to retrieve the GUIDs of the associated objects, then programmatically add the `fqn` property to the downloaded TML with the correct GUIDs. Including the GUIDs in the saved files on disk allows you to substitute the GUIDs for the equivalent objects in another environment.
-
-For example, in these earlier versions, the items in the `tables:` list of this example worksheet TML only include a `name:` property, representing the name of the ThoughtSpot *table* object (as opposed to the table's name in the data warehouse).
-
-If there are *table* objects with duplicate names, specify the GUID of the object using the `fqn:` property. This will distinguish the correct object when importing the TML back.
-
-When you set `export_associated=true` in the TML export command, the first item in the response will be the object you requested in the export:
-
-[source,yaml]
-----
-guid: 0a0bb654-b0e8-482c-a6c8-9ed396d1cb92
-worksheet:
-  name: Markspot 2 Worksheet
-  tables:
-  - name: DIM_CUSTOMERS_2
-  table_paths:
-  - id: DIM_CUSTOMERS_2_1
-    table: DIM_CUSTOMERS_2
-    join_path:
-    - {}
-...
-----
-
-The overall response will be structured as a JSON array, with an `edoc` property representing the TML document itself and an `info` section providing basic metadata information, but more importantly the `name` and `id` properties.
-
-[source,json]
-----
-{
-  "object": [
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/commits/afc0fea831558e30d7064ab019f49243b1f09552/revert' \
+  -H 'Authorization: Bearer {Bearer_token}\\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "metadata": [
     {
-      "edoc":  "<string of the TML doc>"
-        ,
-        "info": {
-          "id": "<object guid>",
-          "name": "<object name>",
-           ...
-        }
-      },
-     ...
-  ]
-}
+      "identifier": "e9d54c69-d2c1-446d-9529-544759427075",
+      "type": "LIVEBOARD"
+    }
+  ],
+  "commit_id": "afc0fea831558e30d7064ab019f49243b1f09552",
+  "branch_name": "dev"
+}'
 ----
 
-Parse through this array and record a simple mapping of name to `guid`:
+If the API request is successful, the Git branch and the TML object in the ThoughtSpot instance are reverted to the specified commit.
 
-.Python example of this process
-[source,python]
-----
-name_guid_map = {}
+=== Merge updates from `dev` branch to `main` in Git
 
-for obj in objs:
-    name_guid_map[obj['info']['name']] = obj['info']['id']
+To merge updates, create a pull request to push changes from your `dev` branch to `main`. ThoughtSpot doesn't provide REST APIs to merge content from one branch to another. Before accepting the merge request in the Git repository, you can validate the merge on your ThoughtSpot instance using REST API.
+
+To validate the merge, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/branches/validate` endpoint:
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`source_branch_name`|__String__. Name of the source branch from which changes need to be picked for validation.
+|`target_branch_name`|__String__. Name of the target branch into which the TML changes will be merged.
+|===
+
+==== Request example
+
+The following example shows the API request with Liveboard and Worksheet objects to commit to Git.
+
+[source,cURL]
+----
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/branches/validate' \
+  -H 'Authorization: Bearer {Bearer_token}\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "source_branch_name": "dev",
+  "target_branch_name": "main"
+}'
 ----
 
-Because we know that these are the GUIDs that match the name values in this particular TML file, we can now use the map we created to add in the `fqn` properties, to result in the *worksheet* TML looking like this:
+After validating the merge, check for conflicts. Resolve issues if any with a new commit and merge your changes to the `main` branch.
 
-[source,yaml]
+=== Deploy commits
+
+To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. By default, the API request will deploy the latest version of all changed objects in the default branch to your cluster.
+
+Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
+
+Make sure the  *guid mapping file* is referenced when creating the final TML files for publishing and then should be updated with any new object GUIDs after publishing:
+
+==== Request parameters
+[width="100%" cols="1,4"]
+[options='header']
+|===
+|Parameter|Description
+|`commit_id` +
+__Optional__|__String__. ID of the commit to deploy on the cluster. By default, the command will deploy the latest version of the branch. To deploy a specific version, specify the `commit_id` that should be used.
+|`branch_name` +
+__Optional__|__String__. Name of the branch from the changes must be deployed. If you do not specify the branch name, the commit from the default branch is deployed.
+|`import_type` a|__String__. Specify one of the following options: +
+
+* `DELTA` +
+By default, the delta changes between the latest commit of the default branch on the `Prod` instance and the version on the ThoughtSpot instance are applied.
+* `FULL` +
+To deploy the latest version of all objects from the Git `main` branch to the cluster, specify `FULL`. This will apply all the changes from previous commits.
+|`deploy_type` a| __String__. Specify one of the following options: +
+
+* `DELTA` +
+Deploys only the modified files at the specified commit.
+* `FULL` +
+Deploys all files at the specified commit.
+
+|`deploy_policy` a|__String__. Action to apply when deploying a commit. The allowed values are: +
+
+* `ALL_OR_NONE`
+Deploys all or none. The `ALL_OR_NONE` option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
+* `PARTIAL`
+Reverts partial objects. Use “Partial” to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
+|===
+
+==== Request example
+
+[source,cURL]
 ----
-guid: 0a0bb654-b0e8-482c-a6c8-9ed396d1cb92
-worksheet:
-  name: Markspot 2 Worksheet
-  tables:
-  - name: DIM_CUSTOMERS_2
-    fqn: 3b87cea1-7767-4fd8-904f-23255d4ba7b3
-  table_paths:
-  - id: DIM_CUSTOMERS_2_1
-    table: DIM_CUSTOMERS_2
-    join_path:
-    - {}
+curl -X POST \
+  --url 'https://{ThoughtSpot-Host}/api/rest/2.0/vcs/git/commits/deploy' \
+  -H 'Authorization: Bearer {Bearer_token}'\
+  -H 'Accept: application/json'\
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+  "import_type": "DELTA",
+  "deploy_type": "DELTA",
+  "deploy_policy": "ALL_OR_NONE",
+  "commit_id": "afc0fea831558e30d7064ab019f49243b1f09552",
+  "branch_name": "main"
+}'
 ----
+
+If the API request is successful, the changes are applied to the objects in the `prod` environment.

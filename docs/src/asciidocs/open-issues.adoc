@@ -14,13 +14,12 @@ This page lists the known issues that you might run into while embedding Thought
 [options='header']
 |=====
 |Issue ID |Description| Symptoms, conditions, and workaround
-|SCAL-147773| The `Export Liveboard Report` API endpoint in the REST API v2.0 Playground returns the incorrect payload error.| *Symptom*: The `/api/rest/2.0/report/liveboard` endpoint in the Playground returns an error.
+|SCAL-147773| The `Export Liveboard Report` API endpoint returns the `incorrect payload` error.| *Symptom*: A REST API request to download a Liveboard in the PNG format returns an error.
 
-*Condition*: This issue occurs when a user tries to download a Liveboard in the PMG format via REST API in the v2.0 Playground. +
+*Condition*: This issue occurs when a user tries to download a given Liveboard as a PNG file via a REST API call to the `/api/rest/2.0/report/liveboard` endpoint. +
 
 *Workaround*: None +
 |=====
-
 
 == Version 9.0.0.cl
 [cols="15%,35%,50%"]
