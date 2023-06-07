@@ -358,7 +358,7 @@ The *More* menu appears on Liveboard, visualization, answers, SpotIQ, and severa
 |`--ts-var-menu-background`|Background color of menu panels.
 |`--ts-var-menu-font-family`|Font family specification for the menu items.
 |`--ts-var-menu-text-transform`|Text capitalization specification for the menu items.
-|`--ts-var-menu--hover-background`|Background color for menu items on hover.
+|`--ts-var-menu\--hover-background`|Background color for menu items on hover.
 |======
 
 === Dialogs
