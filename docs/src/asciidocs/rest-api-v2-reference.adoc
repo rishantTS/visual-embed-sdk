@@ -35,7 +35,7 @@ Gets session information for the currently logged-in user.
 
 Creates a login session for a ThoughtSpot user.
 
-Requires `username` and `password`. Users can also specify the name or ID of the Org to which they want to log in.
+Requires `username` and `password`. Users can also specify the ID of the Org to which they want to log in.
 
 If the login is successful, a user session is established.
 
@@ -462,7 +462,7 @@ __Available to all users. Does not require administrator privileges__.
 
 `POST /api/rest/2.0/groups/create`
 
-Creates a user in ThoughtSpot. This API also supports the following operations: +
+Creates a group in ThoughtSpot. This API also supports the following operations: +
 
 * assign privileges
 * add users
