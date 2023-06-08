@@ -44,7 +44,7 @@ image::./images/git-integration-workflow.svg[Git integration workflow]
 
 Before getting started, check the following:
 
-* You require administration access to ThoughtSpot (*Can administer ThoughtSpot* privilege)
+* You require administrator access to ThoughtSpot (*Can administer ThoughtSpot* privilege)
 * You have a Git repository. If using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
 +
 The access token must allow the following scopes:
@@ -118,7 +118,7 @@ Your application users can create and modify their Liveboards, Answers, Connecti
 
 ==== GUID mapping
 
-Every object on a ThoughtSpot instance has a *GUID* as a unique reference. In 9.3.0.cl release, GUID mapping is not supported when committing your files to Git. You must manually track the newly created object GUIDs from the destination environment into a GUID mapping file along with the GUID of the source object. The exact structure of the file will depend on the complexity of your deployment.
+Every object on a ThoughtSpot instance has a *GUID* as a unique reference. In the 9.3.0.cl release, GUID mapping is not supported when committing your files to Git. You must manually track the newly created object GUIDs from the destination environment into a GUID mapping file along with the GUID of the source object. The exact structure of the file will depend on the complexity of your deployment.
 
 The following example shows a simple mapping of object GUIDs in JSON format:
 

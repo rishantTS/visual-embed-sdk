@@ -21,7 +21,7 @@
 ** link:{{navprefix}}=whats-new[New features]
 *** link:{{navprefix}}=fixed-issues[Fixed issues]
 *** link:{{navprefix}}=known-issues[Known Issues]
-** Changelog
+** API and SDK Changelog
 *** link:{{navprefix}}=embed-sdk-changelog[Visual Embed changelog]
 *** link:{{navprefix}}=rest-v1-changelog[REST API v1 changelog]
 *** link:{{navprefix}}=rest-v2-changelog[REST API v2 changelog]
@@ -80,7 +80,6 @@
 ** link:{{navprefix}}=customize-links[Customize links]
 ** link:{{navprefix}}=customize-emails[Customize onboarding settings]
 ** link:{{navprefix}}=custom-domain-config[Custom domain configuration]
-
 
 * Deployment and multi-tenancy
 ** link:{{navprefix}}=thoughtspot-objects[ThoughtSpot objects]
