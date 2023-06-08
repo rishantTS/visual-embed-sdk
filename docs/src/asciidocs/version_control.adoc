@@ -6,35 +6,38 @@
 :page-pageid: git-integration
 :page-description: The version control APIs and Git integration capability let you connect your ThoughtSpot instance to a Git repository, push changes, and deploy commits to your ThoughtSpot environment.
 
-When embedding and deploying a third-party application in their apps, most organizations use defined practices through the development, testing, and deployment stages of their SDLC process. Developers typically use a version control system and CI-CD pipelines to push their code through several stages before publishing their application content.
+When embedding and deploying a third-party application in their apps, most organizations use defined practices through the development, testing, and deployment stages of their SDLC process. Developers typically use a version control system and CI-CD pipelines to push their code through several stages before publishing their application content. ThoughtSpot deployments may require you to publish content from a development environment to a staging or production cluster.
 
-ThoughtSpot deployments may require you to publish content from a development environment to a staging or production cluster. ThoughtSpot objects such as Tables, Worksheets, Liveboards, and Answers are stored in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] and can be downloaded as TML files to your local environment. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with a Git repository and push content in the form of TML files to CI/CD pipelines via Git workflows.
+ThoughtSpot objects such as Tables, Worksheets, Liveboards, and Answers are stored in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] and can be downloaded as TML files to your local environment. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with a Git repository and push content in the form of TML files to CI/CD pipelines.
 
 == Git integration overview
 
 The Git integration [beta betaBackground]^Beta^ feature supports the following capabilities:
 
-* ThoughtSpot integration with Git and CI/CD pipeline
+* ThoughtSpot integration with Git and CI/CD workflows
 +
 Ability to connect your ThoughtSpot instance to a Git repository and deploy commits via REST API.
 * Ability to version control ThoughtSpot content
 +
-Ability to build or modify your content locally on a development instance and push commits to a local or remote Git branch via APIs and then deploy changes to the production environment.
+Ability to build or modify your content locally on a development instance and push commits to a remote Git branch via APIs and version your updates.
 
 * Ability to address different types of deployment scenarios
 +
-The simplest deployment scenario is moving content from a ThoughtSpot development instance to a production instance. You can also deploy multiple environments on the same ThoughtSpot instance using the xref:orgs.adoc[Orgs] feature. For example, you can create separate Orgs for `Dev`. `Staging` and `Prod` environments. The content built from the `Dev` Org can be deployed on `Staging` and `Prod` Orgs using REST API v2.0 version control endpoints.
+The simplest deployment scenario is moving content from a ThoughtSpot development instance to a production instance. You can also deploy multiple environments on the same ThoughtSpot instance using the xref:orgs.adoc[Orgs] feature. For example, you can create separate Orgs for `Dev`, `Staging`, and `Prod` environments. The content built from the `Dev` Org can be deployed on `Staging` and `Prod` Orgs using REST API v2.0 version control endpoints.
 
 == How it works
 
-The ThoughtSpot content deployment process with version control includes the following steps:
+The ThoughtSpot content deployment process with version control APIs and Git integration includes the following steps:
 
-1. Enable Git integration on ThoughtSpot.
-2. Connect your ThoughtSpot `Dev` and `Prod` environments to the `dev` and `production` branches on your Git repository. The general practice is to use the `main` branch in your Git repository as a production branch to publish the release content.
-3. Build and modify the objects in your ThoughtSpot `Dev` environment. ThoughtSpot users with edit access to the objects can modify their Liveboard, Answers, Worksheets, and Tables.
-4. Push your changes to the Git branch mapped to the `Dev` environment. To push content and deploy commits via REST API, you need administration privileges.
-5. On the Git repository, create a pull request to merge your changes from the `dev` branch to `main` (production branch).
-6. Apply commits from the `main` branch to your `Prod` environment to deploy your content.
+1. xref:version_control.adoc#_enable_git_integration[Enable Git integration on ThoughtSpot].
+2. xref:version_control.adoc#connectTS[Connect your ThoughtSpot `Dev` and `Prod` environments to the `dev` and `production` branches on your Git repository]. +
+The general practice is to use the `main` branch in your Git repository as a production branch to publish the release content.
+3. xref:version_control.adoc#_build_data_objects_on_the_dev_environment[Build and update the objects in your ThoughtSpot `Dev` environment]. +
+ThoughtSpot users with edit access to the objects can modify their Liveboard, Answers, Worksheets, and Tables.
+4. xref:version_control.adoc#_commit_tml_files_to_git[Push your changes to the Git branch mapped to the `Dev` environment]. +
+To push content and deploy commits via REST API, you need administration privileges.
+5. On the Git repository, xref:version_control.adoc#_merge_updates_from_dev_branch_to_main_in_git[create a pull request to merge your changes from the `dev` branch to `main` (production branch)].
+6. xref:version_control.adoc[Apply commits from the `main` branch to your `Prod` environment] and deploy your content.
 
 The following figure illustrates a simple Git integration workflow with ThoughtSpot `Dev` and `Prod` environments.
 
@@ -69,7 +72,8 @@ To get started with Git integration, enable the Git integration feature on your 
 tscli git-integration enable
 ----
 
-=== Connect ThoughtSpot environment to Git repository
+[#connectTS]
+=== Connect your ThoughtSpot environment to Git repository
 
 To connect your ThoughtSpot instance to a Git repository using REST API, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/config/create` REST API v2.0 endpoint.
 
@@ -104,21 +108,21 @@ curl -X POST \
 }'
 ----
 
-If the API request is successful, the ThoughtSpot instance will be connected to the Git repository. Make sure you connect your `Dev`, `Staging`, and `Prod` environments to the GitHub repository.
+If the API request is successful, the ThoughtSpot instance will be connected to the Git repository. Make sure you connect all your environments (`Dev`, `Staging`, and `Prod`) to the GitHub repository.
 
-* To edit the repository details, send a `POST` request with configuration parameters to the `/api/rest/2.0/vcs/git/config/update` API endpoint.
+* To edit the repository details, send a `POST` request with Git configuration parameters to the `/api/rest/2.0/vcs/git/config/update` API endpoint.
 * To get repository configuration information, send a `POST` request to `/api/rest/2.0/vcs/git/config/search` API endpoint.
 * To delete the repository configuration, send a `POST` request to the `/api/rest/2.0/vcs/git/config/delete` endpoint.
 
 For more information about these endpoints, see the API documentation in the +++<a href="{{previewPrefix}}/api/rest/playgroundV2" target="_blank">REST API v2.0 Playground</a>+++.
 
-=== Build data objects on the `Dev` environment
+=== Build data objects on the Dev environment
 
-Your application users can create and modify their Liveboards, Answers, Connections, Worksheets, and Tables. These objects are stored as TML representations in ThoughtSpot. Users with data management (*Can manage data*) privilege can download these objects as TML files to their local environment, xref:modify-tml.adoc[edit TML files], and import them into ThoughtSpot via UI or REST API. You can push the TML files from ThoughtSpot to a Git branch mapped to your instance using REST API.
+Your application users can create and modify their Liveboards, Answers, Connections, Worksheets, and Tables. These objects are stored as TML representations in ThoughtSpot. Users with data management (*Can manage data*) privilege can download these objects as TML files to their local environment, xref:modify-tml.adoc[edit TML files], and import them into ThoughtSpot via UI or REST API. Administrators can push the TML files from a ThoughtSpot instance to the default Git branch using REST API.
 
 ==== GUID mapping
 
-Every object on a ThoughtSpot instance has a *GUID* as a unique reference. In the 9.3.0.cl release, GUID mapping is not supported when committing your files to Git. You must manually track the newly created object GUIDs from the destination environment into a GUID mapping file along with the GUID of the source object. The exact structure of the file will depend on the complexity of your deployment.
+Every object in ThoughtSpot has a *GUID* as a unique reference. In the 9.3.0.cl release, GUID mapping is not supported when committing your files to Git. You must manually track the newly created object GUIDs from the destination environment into a GUID mapping file along with the GUID of the source object.
 
 The following example shows a simple mapping of object GUIDs in JSON format:
 
@@ -138,11 +142,11 @@ The following example shows a simple mapping of object GUIDs in JSON format:
 }
 ----
 
-When publishing to a new environment, you *must* swap out the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files, so that only destination environment content is referenced.
+When xref:version_control.adoc#_deploy_commits[publishing content to another environment], you *must* swap out the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files, so that only the destination environment content is referenced.
 
 === Commit TML files to Git
 
-To commit the updates to a branch in Git repository via REST API, you need administrator (*Can administer ThoughtSpot*) privileges.
+To commit the updates to a branch in Git repository via REST API, you need administrator (*Can administer ThoughtSpot*) privilege.
 
 To commit TML objects to a branch in Git, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/branches/commit` API endpoint.
 
@@ -276,7 +280,7 @@ To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to 
 
 Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
 
-Make sure the  *guid mapping file* is referenced when creating the final TML files for publishing and then should be updated with any new object GUIDs after publishing:
+Make sure the  *guid mapping file* is referenced when creating the final TML files for production rollout.
 
 ==== Request parameters
 [width="100%" cols="1,4"]
