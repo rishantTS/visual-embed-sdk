@@ -1,6 +1,6 @@
 = Runtime filters
 :toc: true
-:toclevels: 2
+:toclevels: 1
 
 :page-title: Runtime filters
 :page-pageid: runtime-filters
@@ -178,7 +178,7 @@ liveboardEmbed.render({
   });
 ----
 
-=== Apply multiple runtime filters in the SDK
+==== Apply multiple runtime filters in the SDK
 
 The following examples show how to apply multiple runtime filters on Liveboard visualizations using the SDK:
 
@@ -221,7 +221,7 @@ video::./images/runtime-filters.mp4[width=100%,options="autoplay,loop"]
 --
 
 [#runtimeFilterOp]
-=== Runtime filter operator examples
+==== Runtime filter operator examples
 
 [width="100%" cols="3,7"]
 [options='header']
@@ -454,7 +454,7 @@ liveboardEmbed.render({
 
 See xref:events-ref.adoc#_updateruntimefilters[UpdateRuntimeFilters] and xref:embed-events.adoc#_filters_in_embedded_ui[Filters in embedded UI].
 
-== Apply runtime filters using REST API v1 endpoints
+== Apply runtime filters via REST API v1 endpoints
 
 To apply runtime filters on a Liveboard object in a REST API request, add the runtime filters to the API request URL as shown here:
 
@@ -512,7 +512,7 @@ col1=region&op1=IN&val1=midwest&val1=south&val1=northeast&col2=date&op2=BET&val2
 If the Liveboard or Answer you're filtering already has one or more filters applied, the runtime filters will act as an `AND` condition. This means that the data returned must meet the conditions of all filters; those supplied in the runtime filter and those included in the Liveboard or visualization itself.
 ====
 
-== Apply Runtime filters in REST API v2 requests
+== Apply runtime filters via REST API v2.0 endpoints
 
 The following v2.0 endpoints support runtime filters in REST API requests:
 
