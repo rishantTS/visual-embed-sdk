@@ -1,14 +1,14 @@
-= Version control with Git integration
+= Version control and Git integration
 :toc: true
 :toclevels: 2
 
-:page-title: Version control and Git integration for deployments
+:page-title: Version control and Git integration
 :page-pageid: git-integration
 :page-description: The version control APIs and Git integration capability let you connect your ThoughtSpot instance to a Git repository, push changes, and deploy commits to your ThoughtSpot environment.
 
-When embedding and deploying a third-party application in their apps, most organizations use defined practices through the development, testing, and deployment stages of their SDLC process. Developers typically use a version control system and CI-CD pipelines to push their code through several stages before publishing their application content. ThoughtSpot deployments may require you to publish content from a development environment to a staging or production cluster.
+When embedding or deploying a third-party application in their environments, most organizations use defined practices at various stages of their SDLC process. Developers typically use a version control system and CI-CD pipeline to push their code from development to testing and production environments. Similarly, when deploying ThoughtSpot, you may want to publish your ThoughtSpot content from a development environment to a staging or production cluster.
 
-ThoughtSpot objects such as Tables, Worksheets, Liveboards, and Answers are stored in link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] and can be downloaded as TML files to your local environment. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with a Git repository and push content in the form of TML files to CI/CD pipelines.
+ThoughtSpot objects such as Tables, Worksheets, Liveboards, and Answers are stored as link:https://cloud-docs.thoughtspot.com/admin/ts-cloud/tml.html[ThoughtSpot Modeling Language (TML), window=_blank] content and can be downloaded as TML files to your local environment. With the Git integration [beta betaBackground]^Beta^ feature, ThoughtSpot provides the ability to integrate your application environment with a Git repository and push TML files to CI/CD pipelines from your instance.
 
 == Git integration overview
 
@@ -315,7 +315,7 @@ Deploys all the files, including the files from the `commit_id` specified in the
 
 |`deploy_policy` a|__String__. Action to apply when deploying a commit. The allowed values are: +
 
-* `ALL_OR_NONE`
+* `ALL_OR_NONE` (Default)
 Deploys all or none. The `ALL_OR_NONE` option cancels the deployment of all ThoughtSpot objects if at least one of them fails to import.
 * `PARTIAL`
 Reverts partial objects. Use “Partial” to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
