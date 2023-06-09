@@ -23,7 +23,11 @@ Ability to build or modify your content locally on a development instance and pu
 
 * Ability to address different types of deployment scenarios
 +
-The simplest deployment scenario is moving content from a ThoughtSpot development instance to a production instance. You can also deploy multiple environments on the same ThoughtSpot instance using the xref:orgs.adoc[Orgs] feature. For example, you can create separate Orgs for `Dev`, `Staging`, and `Prod` environments. The content built from the `Dev` Org can be deployed on `Staging` and `Prod` Orgs using REST API v2.0 version control endpoints.
+The simplest deployment scenario is moving content from a ThoughtSpot development instance to a production instance.
+
+////
+You can also deploy multiple environments on the same ThoughtSpot instance using the xref:orgs.adoc[Orgs] feature. For example, you can create separate Orgs for `Dev`, `Staging`, and `Prod` environments. The content built from the `Dev` Org can be deployed on `Staging` and `Prod` Orgs using REST API v2.0 version control endpoints.
+////
 
 == How it works
 
@@ -45,13 +49,14 @@ image::./images/git-integration-workflow.svg[Git integration workflow]
 
 == Get started
 
-Before getting started, check the following:
+Before you begin, check for the following prerequisites:
 
-* You require administrator access to ThoughtSpot (*Can administer ThoughtSpot* privilege)
-* You have a Git repository. If using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
+* You have administrator access (*Can administer ThoughtSpot* privilege) to connect ThoughtSpot to Git repository and deploy commits.
+* You have access to a Git repository. If you are using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
 +
-The access token must allow the following scopes:
+Make sure the access token has `repo` scope that grants full access to public and private repositories,  commit and deployment status, repository invitations, and security events.
 
+////
 ** `repo:status` +
 Access to commit status
 ** `repo_deployment` +
@@ -62,10 +67,12 @@ Access to public repositories
 Access to repository invitations
 ** `security_events` +
 Read and write security events
-* Create a branch in the Git repository that can be used as a default branch.
+////
+
+* Your Git repository has a branch that can be used as a default branch in ThoughtSpot.
 
 === Enable Git integration
-To get started with Git integration, enable the Git integration feature on your ThoughtSpot `Dev` and `Prod` environments. If Git integration is not enabled on their instance, administrators must run the following `tscli` command in the 9.3.0.cl release version.
+To get started with Git integration, enable the Git integration feature on your ThoughtSpot `Dev` and `Prod` environments. To enable Git integration on ThoughtSpot, administrators must run the following `tscli` command on their instances.
 
 [source,SSH]
 ----
@@ -86,6 +93,7 @@ To connect your ThoughtSpot instance to a Git repository using REST API, send a 
 |`username`
 |__String__. Username to authenticate to the Git repository.
 |`access_token`|__String__. Access token to authenticate to the Git repository.
+|`branch_names`|__Array of strings__. List of Git branches to configure.
 |`default_branch_name` +
 __Optional__|__String__. Specify the default Git branch used for all operations on the cluster.
 |===
@@ -105,6 +113,10 @@ curl -X POST \
   "repository_url": "https://github.com/ts-git-user/gitdemo",
   "username": "ts-git-user",
   "access_token": "{ACCESS_TOKEN}",
+  "branch_names": [
+    "dev",
+    "main"
+  ],
   "default_branch_name": "dev"
 }'
 ----
@@ -143,7 +155,7 @@ The following example shows a simple mapping of object GUIDs in JSON format:
 }
 ----
 
-When xref:version_control.adoc#_deploy_commits[publishing content to another environment], you *must* swap out the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files, so that only the destination environment content is referenced.
+When xref:version_control.adoc#_deploy_commits[publishing content to another environment], you may have to swap the GUIDs from the source environment with those of the equivalent objects in the destination environment within the TML files. If you are deploying from a `dev` cluster to a `prod` instance and if the GUIDs are being re-used across environments, GUID mapping is not required.
 
 === Commit TML files to Git
 
@@ -158,7 +170,7 @@ To commit TML objects to a branch in Git, send a `POST` request with the followi
 |Parameter|Description
 |`metadata`|__Array of Strings__. Specify the `type` and GUID of the metadata object.
 |`branch_name` +
-__Optional__|__String__. Name of the branch in the Git repository to which you want to push.
+__Optional__|__String__. Name of the branch in the Git repository to which you want to push the commit. If you do not specify the branch name, the commit will be pushed to the default branch.
 |`comment`|__String__. Add a comment to the commit.
 |===
 
@@ -210,9 +222,9 @@ __Optional__|__Array of Strings__. Specify the `type` and GUID of the metadata o
 __Optional__|__String__. Name of the branch to which the revert operation must be applied. If you do not specify the branch name, the API will revert the commit to the default branch configured on that ThoughtSpot instance.
 |`revert_policy` a|__String__. Action to apply when reverting a commit. The allowed values are: +
 
-* `ALL_OR_NONE`
+* `ALL_OR_NONE`  (Default) +
 Reverts all objects. If the revert operation for one of the objects provided in the commit fails, the API will respond with an error message, and none of the objects will be reverted.
-* `PARTIAL`
+* `PARTIAL` +
 Reverts partial objects.
 |===
 
@@ -245,7 +257,7 @@ If the API request is successful, the Git branch and the TML object in the Thoug
 
 To merge updates, create a pull request to push changes from your `dev` branch to `main`. ThoughtSpot doesn't provide REST APIs to merge content from one branch to another. Before accepting the merge request in the Git repository, you can validate the merge on your ThoughtSpot instance using REST API.
 
-To validate the merge, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/branches/validate` endpoint:
+To validate the content of your `dev` branch against your `prod` environment, send a `POST` request from your prod instance to the `/api/rest/2.0/vcs/git/branches/validate` API endpoint.
 
 ==== Request parameters
 [width="100%" cols="1,4"]
@@ -279,9 +291,11 @@ After validating the merge, check for conflicts. Resolve issues if any with a ne
 
 To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. By default, the API request will deploy the latest version of all changed objects in the default branch to your cluster.
 
-Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
+Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you likely need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
 
-Make sure the  *guid mapping file* is referenced when creating the final TML files for production rollout.
+////
+Make sure the *guid mapping file* is referenced when creating the final TML files for production rollout.
+////
 
 ==== Request parameters
 [width="100%" cols="1,4"]
@@ -289,21 +303,15 @@ Make sure the  *guid mapping file* is referenced when creating the final TML fil
 |===
 |Parameter|Description
 |`commit_id` +
-__Optional__|__String__. ID of the commit to deploy on the cluster. By default, the command will deploy the latest version of the branch. To deploy a specific version, specify the `commit_id` that should be used.
+__Optional__|__String__. ID of the commit to deploy on the cluster. By default, the command will deploy the head of the branch. To deploy a specific version, specify the `commit_id`.
 |`branch_name` +
 __Optional__|__String__. Name of the branch from the changes must be deployed. If you do not specify the branch name, the commit from the default branch is deployed.
-|`import_type` a|__String__. Specify one of the following options: +
-
-* `DELTA` +
-By default, the delta changes between the latest commit of the default branch on the `Prod` instance and the version on the ThoughtSpot instance are applied.
-* `FULL` +
-To deploy the latest version of all objects from the Git `main` branch to the cluster, specify `FULL`. This will apply all the changes from previous commits.
 |`deploy_type` a| __String__. Specify one of the following options: +
 
-* `DELTA` +
-Deploys only the modified files at the specified commit.
+* `DELTA` (default) +
+Deploys only the changes that were applied at the specified `commit_id`. For example, if three TML files were updated in the `commit_id` specified in the API request, only those changes will be deployed.
 * `FULL` +
-Deploys all files at the specified commit.
+Deploys all the files, including the files from the `commit_id` specified in the request and all other files that were already committed.
 
 |`deploy_policy` a|__String__. Action to apply when deploying a commit. The allowed values are: +
 
@@ -312,6 +320,7 @@ Deploys all or none. The `ALL_OR_NONE` option cancels the deployment of all Thou
 * `PARTIAL`
 Reverts partial objects. Use “Partial” to import ThoughtSpot objects that validate successfully even if other objects in the same deploy operations fail to import.
 |===
+
 
 ==== Request example
 
