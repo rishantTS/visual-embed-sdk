@@ -231,6 +231,15 @@ export class LiveboardEmbed extends V1Embed {
         }
     };
 
+    private setActiveTab(data: { tabId: string }) {
+        console.log('setActiveTab 78', !this.viewConfig.vizId);
+        if (!this.viewConfig.vizId) {
+            const prefixPath = this.iFrame.src.split('#/')[1].split('/tab')[0];
+            const path = `${prefixPath}/tab/${data.tabId}`;
+            super.trigger(HostEvent.Navigate, path);
+        }
+    }
+
     /**
      * Triggers an event to the embedded app
      *
@@ -239,6 +248,10 @@ export class LiveboardEmbed extends V1Embed {
      */
     public trigger(messageType: HostEvent, data: any = {}): Promise<any> {
         const dataWithVizId = data;
+        if (messageType === HostEvent.SetActiveTab) {
+            this.setActiveTab(data);
+            return Promise.resolve(null);
+        }
         if (typeof dataWithVizId === 'object' && this.viewConfig.vizId) {
             dataWithVizId.vizId = this.viewConfig.vizId;
         }
@@ -276,4 +289,4 @@ export class LiveboardEmbed extends V1Embed {
 /**
  * @hidden
  */
-export class PinboardEmbed extends LiveboardEmbed { }
+export class PinboardEmbed extends LiveboardEmbed {}
