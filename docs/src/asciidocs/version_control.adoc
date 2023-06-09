@@ -62,7 +62,7 @@ Access to public repositories
 Access to repository invitations
 ** `security_events` +
 Read and write security events
-* ACreate a branch in the Git repository that can be used as a default branch.
+* Create a branch in the Git repository that can be used as a default branch.
 
 === Enable Git integration
 To get started with Git integration, enable the Git integration feature on your ThoughtSpot `Dev` and `Prod` environments. If Git integration is not enabled on their instance, administrators must run the following `tscli` command in the 9.3.0.cl release version.
@@ -83,10 +83,11 @@ To connect your ThoughtSpot instance to a Git repository using REST API, send a 
 |===
 |Parameter|Description
 |`repository_url`|__String__. URL of the Git repository.
-|`username` +
-__Optional__|__String__. Username to authenticate to the Git repository.
+|`username`
+|__String__. Username to authenticate to the Git repository.
 |`access_token`|__String__. Access token to authenticate to the Git repository.
-|`default_branch_name`|__String__. Specify the default Git branch used for all operations on the cluster.
+|`default_branch_name` +
+__Optional__|__String__. Specify the default Git branch used for all operations on the cluster.
 |===
 
 ==== Request example
@@ -103,7 +104,7 @@ curl -X POST \
   --data-raw '{
   "repository_url": "https://github.com/ts-git-user/gitdemo",
   "username": "ts-git-user",
-  "access_token": "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",
+  "access_token": "{ACCESS_TOKEN}",
   "default_branch_name": "dev"
 }'
 ----

@@ -23,6 +23,8 @@ The upcoming version of ThoughtSpot introduces the version control [beta betaBac
 * `*POST* /api/rest/2.0/vcs/git/branches/validate`
 * `*POST* /api/rest/2.0/vcs/git/commits/deploy`
 
+For more information, see xref:version_control.adoc[Version control and Git integration].
+
 == Version 9.2.0.cl, May 2023
 
 New endpoints::
