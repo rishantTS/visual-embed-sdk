@@ -1,4 +1,4 @@
-= Version control and Git integration
+= Git integration and version control
 :toc: true
 :toclevels: 2
 
@@ -49,12 +49,12 @@ image::./images/git-integration-workflow.svg[Git integration workflow]
 
 == Get started
 
-Before you begin, check for the following prerequisites:
+Before you begin, check the following prerequisites:
 
 * You have administrator access (*Can administer ThoughtSpot* privilege) to connect ThoughtSpot to Git repository and deploy commits.
-* You have access to a Git repository. If you are using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
+* You have a Git repository. If you are using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
 +
-Make sure the access token has `repo` scope that grants full access to public and private repositories,  commit and deployment status, repository invitations, and security events.
+Make sure your access token has `repo` scope that grants full access to public and private repositories, commit and deployment status, repository invitations, and security events.
 
 ////
 ** `repo:status` +
@@ -80,7 +80,7 @@ tscli git-integration enable
 ----
 
 [#connectTS]
-=== Connect your ThoughtSpot environment to Git repository
+=== Connect your ThoughtSpot environment to a Git repository
 
 To connect your ThoughtSpot instance to a Git repository using REST API, send a `POST` request with the following parameters to the `/api/rest/2.0/vcs/git/config/create` REST API v2.0 endpoint.
 
@@ -223,7 +223,8 @@ __Optional__|__String__. Name of the branch to which the revert operation must b
 |`revert_policy` a|__String__. Action to apply when reverting a commit. The allowed values are: +
 
 * `ALL_OR_NONE`  (Default) +
-Reverts all objects. If the revert operation for one of the objects provided in the commit fails, the API will respond with an error message, and none of the objects will be reverted.
+Reverts all objects. If the revert operation fails for one of the objects provided in the commit, the API returns an error and does not revert any object.
+
 * `PARTIAL` +
 Reverts partial objects.
 |===
@@ -257,7 +258,7 @@ If the API request is successful, the Git branch and the TML object in the Thoug
 
 To merge updates, create a pull request to push changes from your `dev` branch to `main`. ThoughtSpot doesn't provide REST APIs to merge content from one branch to another. Before accepting the merge request in the Git repository, you can validate the merge on your ThoughtSpot instance using REST API.
 
-To validate the content of your `dev` branch against your `prod` environment, send a `POST` request from your prod instance to the `/api/rest/2.0/vcs/git/branches/validate` API endpoint.
+To validate the content of your `dev` branch against your `prod` environment, send a `POST` request from your `prod` instance to the `/api/rest/2.0/vcs/git/branches/validate` API endpoint.
 
 ==== Request parameters
 [width="100%" cols="1,4"]
@@ -289,9 +290,9 @@ After validating the merge, check for conflicts. Resolve issues if any with a ne
 
 === Deploy commits
 
-To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. By default, the API request will deploy the latest version of all changed objects in the default branch to your cluster.
+To deploy commits to the `Staging` or `Prod` instance, send a `POST` request to the `/api/rest/2.0/vcs/git/commits/deploy` API endpoint. The API will deploy the head of the branch unless a `commit_id` is specified in the API request.
 
-Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you likely need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
+Building a release version for a `Prod` environment on the same instance requires swapping in the correct GUIDs. Because the presence of the *guid* property determines whether an individual TML file will cause a create or update action, you may need to keep a *GUID mapping file* to determine how to adjust the TML files for upload to the new environment.
 
 ////
 Make sure the *guid mapping file* is referenced when creating the final TML files for production rollout.
