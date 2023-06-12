@@ -72,12 +72,17 @@ Read and write security events
 * Your Git repository has a branch that can be used as a default branch in ThoughtSpot.
 
 === Enable Git integration
-To get started with Git integration, enable the Git integration feature on your ThoughtSpot `Dev` and `Prod` environments. To enable Git integration on ThoughtSpot, administrators must run the following `tscli` command on their instances.
+
+To configure Git branches and workflows, the Git integration feature must be enabled on your ThoughtSpot `Dev` and `Prod` environments. To enable this feature on your instance, contact ThoughtSpot Support.
+
+////
+Run the following `tscli` command on their instances.
 
 [source,SSH]
 ----
 tscli git-integration enable
 ----
+////
 
 [#connectTS]
 === Connect your ThoughtSpot environment to a Git repository
