@@ -95,20 +95,20 @@
 * REST API
 ** link:{{navprefix}}=rest-apis[Overview]
 ** link:{{navprefix}}=v1v2-comparison[REST v1 and v2.0 comparison]
-* REST API v2.0
-** link:{{navprefix}}=rest-api-v2[REST API v2.0]
-** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
-** link:{{navprefix}}=api-authv2[REST API v2.0 authentication]
-** link:{{navprefix}}=rest-apiv2-js[REST API v2.0 in JavaScript]
-** link:{{navprefix}}=restV2-playground[REST API v2.0 Playground]
+** REST API v2.0
+*** link:{{navprefix}}=rest-api-v2[REST API v2.0]
+*** link:{{navprefix}}=rest-apiv2-getstarted[Get started]
+*** link:{{navprefix}}=api-authv2[REST API v2.0 authentication]
+*** link:{{navprefix}}=rest-apiv2-js[REST API v2.0 in JavaScript]
+*** link:{{navprefix}}=restV2-playground[REST API v2.0 Playground]
 ** link:{{navprefix}}=rest-apiv2-reference[REST API v2.0 Reference]
-* REST API v1
-** link:{{navprefix}}=rest-api-v1[REST API v1]
-** link:{{navprefix}}=rest-api-getstarted[Get started]
-** link:{{navprefix}}=api-auth-session[REST API v1 authentication]
-** link:{{navprefix}}=api-user-management[Users and group privileges]
-** link:{{navprefix}}=catalog-and-audit[Catalog and audit content]
-** link:{{navprefix}}=rest-api-pagination[Paginate API response]
+** REST API v1
+*** link:{{navprefix}}=rest-api-v1[REST API v1]
+*** link:{{navprefix}}=rest-api-getstarted[Get started]
+*** link:{{navprefix}}=api-auth-session[REST API v1 authentication]
+*** link:{{navprefix}}=api-user-management[Users and group privileges]
+*** link:{{navprefix}}=catalog-and-audit[Catalog and audit content]
+*** link:{{navprefix}}=rest-api-pagination[Paginate API response]
 ** link:{{navprefix}}=rest-api-reference[REST API v1 Reference]
 *** link:{{navprefix}}=orgs-api[Orgs API]
 *** link:{{navprefix}}=user-api[User API]
