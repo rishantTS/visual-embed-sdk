@@ -238,6 +238,7 @@ The following example shows how to register the `GetDataClick` event and trigger
 ----
 const getQueryResult = async (query: string, sourceName: string) => {
   const baseUrl = 'test.thoughspot.com';
+  //Fetching data for given query and source using TS public api
   const r = await fetch(`${baseUrl}/api/rest/2.0/searchdata`, {
     method: 'POST',
     headers: {
@@ -253,12 +254,13 @@ const getQueryResult = async (query: string, sourceName: string) => {
   });
   const data = await r.json();
   return {
-    colNames: data.contents[0].column_names,
-    rows: data.contents[0].data_rows,
+    colNames: data.contents[0].column_names,//Parsing data to get column names
+    rows: data.contents[0].data_rows,//Parsing data to get rows
   };
 };
 
 tsembed.on(EmbedEvent.GetDataClick, ()=>{
+     //On GetDataClick, trigger GetTML hostEvent to get query and datasource for api call
      tsembed.trigger(HostEvent.GetTML).then(async (data) => {
       const query = data.answer.search_query;
       if (!query) {
