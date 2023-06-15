@@ -52,24 +52,18 @@ image::./images/git-integration-workflow.svg[Git integration workflow]
 Before you begin, check the following prerequisites:
 
 * You have administrator access (*Can administer ThoughtSpot* privilege) to connect ThoughtSpot to Git repository and deploy commits.
-* You have a Git repository. If you are using GitHub, make sure you have a valid account and an access token to connect ThoughtSpot to GitHub. For information about generating a token, see link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens[GitHub Documentation, window=_blank].
+* You have a Git repository. If you are using GitHub, ensure that you have a valid account with one of the following types of access tokens.
 +
-Make sure your access token has `repo` scope that grants full access to public and private repositories, commit and deployment status, repository invitations, and security events.
+** link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#personal-access-tokens-classic[Personal access token (Classic), window=_blank]
++
+Make sure the access token has the `repo` scope that grants full access to public and private repositories, commit and deployment status, repository invitations, and security events.
 
-////
-** `repo:status` +
-Access to commit status
-** `repo_deployment` +
-Access to deployment status
-** `public_repo` +
-Access to public repositories
-** `repo:invite`
-Access to repository invitations
-** `security_events` +
-Read and write security events
-////
+** link:https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens[Fine-grained personal access token, window=_blank]
++
+Make sure the token allows `Read access to metadata` and `Read and Write access to code and commit statuses`.
 
 * Your Git repository has a branch that can be used as a default branch in ThoughtSpot.
+
 
 === Enable Git integration
 
