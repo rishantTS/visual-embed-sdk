@@ -95,7 +95,7 @@ __String__. The xref:runtime-filters.adoc#rtOperator[runtime filter operator]. F
 values::
 __String, Integer, or Boolean__. The list of operands. For example, if the column name is defined as `State`, the value can be the name of the state like `Michigan`.
 +
-This attribute is defined as `val1`, `val2`, `val3` in the object URLs and as `values` in the `runtimeFilters` array in the Visual Embed SDK.
+This attribute is defined as `val1`, `val2`, `val3` in the object URLs and REST API requests, and as `values` in the `runtimeFilters` array in the Visual Embed SDK.
 +
 Some operators like `EQ`, `LE` accept a single operand, whereas `BW_INC_MAX`, `BW_INC_MIN`, `BW_INC`, `BW`, and `IN` accept multiple operands.
 
@@ -540,7 +540,10 @@ curl -X POST \
   "runtime_filter": {
     "col1": "item type",
     "op1": "EQ",
-    "values": "Jackets"
+    "val1": "Jackets",
+    "col2": "state",
+    "op2": "EQ",
+    "val2": "California"
   }
 }'
 ----
@@ -559,14 +562,17 @@ curl -X POST \
   "runtime_filter": {
     "col1": "item type",
     "op1": "EQ",
-    "values": "Jackets"
+    "val1": "Jackets",
+    "col2": "state",
+    "op2": "EQ",
+    "val2": "California"
   }
 }'
 ----
 
 == Limitations of runtime filters
 
-* The `DATE` and `DATE_TIME` data type must be specified as EPOCH time (Unix or POSIX time) in runtime filters.
+* The `DATE` and `DATE_TIME` data types must be specified as EPOCH time (Unix or POSIX time) in runtime filters.
 * Runtime filters do not work directly on top of tables. You must create a Worksheet if you want to use runtime filters. This means that the Liveboard or visualization on which you apply a runtime filter must be created on top of a Worksheet.
 * If the Worksheet was created from an Answer (it is an aggregated Worksheet), runtime filters will only work if the Answer was formed using a single Worksheet. If the Answer from which the Worksheet was created includes raw tables or joins multiple worksheets, you won't be able to use runtime filters on it. This is because of the join path ambiguity that could result.
 * Runtime filters do not allow you to apply `HAVING` filters in the URL parameters.
